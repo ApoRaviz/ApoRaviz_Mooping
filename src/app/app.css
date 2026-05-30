@@ -1,4 +1,4 @@
-:host {
+app-root {
   --bg: #050505;
   --surface: #111111;
   --surface-soft: #181614;
@@ -50,6 +50,7 @@ a {
   text-decoration: none;
 }
 
+app-top-nav,
 app-display-panel,
 app-pos-panel,
 app-reward-panel,

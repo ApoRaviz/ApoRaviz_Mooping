@@ -42,5 +42,8 @@ npm run build:gh-pages
 - [Data Model](docs/data-model.md)
 - [LINE OA Plan](docs/line-oa.md)
 - [Deploy Commands](docs/commands/04-deploy.md)
+- [Test Commands](docs/commands/05-test.md)
+- [Git Commands](docs/commands/06-git.md)
+- [CI/CD Commands](docs/commands/07-cicd.md)
 - [Teach Notes](docs/teach/01-project-idea.md)
 - [Progress](progress.md)

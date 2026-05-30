@@ -18,8 +18,10 @@
 
 ## Phase 2: MVP Improvements
 
-- [ ] Split POS, reward, display, and LINE panels into standalone components
+- [x] Split POS, reward, display, and LINE panels into standalone components
 - [ ] Add localStorage persistence
 - [ ] Add purchase and reward claim history
 - [ ] Add real iPad display route
 - [ ] Prepare portfolio case study page content
+- [x] Add teach notes for POS correction, saved rewards, component refactor, and CI/CD
+- [x] Add command docs for test, git, and CI/CD
