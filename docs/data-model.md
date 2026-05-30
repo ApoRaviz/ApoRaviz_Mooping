@@ -9,6 +9,7 @@ type Customer = {
   phone: string;
   sticks: number;
   pendingRewards: number;
+  savedRewards: number;
   totalPurchased: number;
 };
 ```

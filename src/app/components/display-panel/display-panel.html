@@ -1,0 +1,42 @@
+<aside
+  class="display-panel"
+  [class.reward-ready]="customer().pendingRewards > 0"
+  aria-label="Shop iPad display preview"
+>
+  <span class="display-label">iPad Display</span>
+  <div class="grill-stage" aria-hidden="true">
+    <div class="heat-lines">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="skewer skewer-one">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="skewer skewer-two">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+
+  <strong>{{ customer().name }}</strong>
+  <p>{{ customer().sticks }} / 10 sticks</p>
+  <div class="progress-track" aria-hidden="true">
+    <span [style.width.%]="customer().sticks * 10"></span>
+  </div>
+  <div class="stamp-grid" aria-label="Loyalty stamp progress">
+    @for (stamp of stamps(); track stamp) {
+      <span class="stamp" [class.filled]="stamp <= customer().sticks">
+        {{ stamp }}
+      </span>
+    }
+  </div>
+  <div class="display-reward-row">
+    <span>รอเลือก {{ customer().pendingRewards }}</span>
+    <span>เก็บไว้ {{ customer().savedRewards }}</span>
+  </div>
+  <small>{{ progressMessage() }}</small>
+</aside>

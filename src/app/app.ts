@@ -1,44 +1,30 @@
-import { Component, computed, signal } from '@angular/core';
-
-type Customer = {
-  id: string;
-  name: string;
-  phone: string;
-  sticks: number;
-  pendingRewards: number;
-  totalPurchased: number;
-};
-
-type LineMessage = {
-  id: number;
-  time: string;
-  text: string;
-};
-
-type LastSale = {
-  customerId: string;
-  customerBefore: Customer;
-  sticksAdded: number;
-};
+import { Component, ViewEncapsulation, computed, signal } from '@angular/core';
+import { DisplayPanelComponent } from './components/display-panel/display-panel';
+import { LinePanelComponent } from './components/line-panel/line-panel';
+import { PosPanelComponent } from './components/pos-panel/pos-panel';
+import { RewardPanelComponent } from './components/reward-panel/reward-panel';
+import { TopNavComponent } from './components/top-nav/top-nav';
+import { Customer, LastSale, LineMessage, RewardOption } from './models/loyalty.models';
 
 @Component({
   selector: 'app-root',
-  imports: [],
+  imports: [TopNavComponent, DisplayPanelComponent, PosPanelComponent, RewardPanelComponent, LinePanelComponent],
   templateUrl: './app.html',
   styleUrl: './app.css',
+  encapsulation: ViewEncapsulation.None,
 })
 export class App {
   protected readonly quickAmounts = [1, 3, 5, 10];
-  protected readonly rewards = [
+  protected readonly rewards: RewardOption[] = [
     { id: 'pork-stick', name: 'หมูปิ้ง 1 ไม้', icon: 'M' },
     { id: 'sticky-rice', name: 'ข้าวเหนียว 1 ห่อ', icon: 'R' },
     { id: 'save-later', name: 'เก็บสิทธิ์ไว้ก่อน', icon: 'S' },
   ];
 
   protected readonly customers = signal<Customer[]>([
-    { id: 'a', name: 'คุณ A', phone: '081-111-1111', sticks: 7, pendingRewards: 0, totalPurchased: 7 },
-    { id: 'b', name: 'คุณ B', phone: '082-222-2222', sticks: 9, pendingRewards: 0, totalPurchased: 19 },
-    { id: 'c', name: 'คุณ C', phone: '083-333-3333', sticks: 2, pendingRewards: 1, totalPurchased: 32 },
+    { id: 'a', name: 'คุณ A', phone: '081-111-1111', sticks: 7, pendingRewards: 0, savedRewards: 0, totalPurchased: 7 },
+    { id: 'b', name: 'คุณ B', phone: '082-222-2222', sticks: 9, pendingRewards: 0, savedRewards: 1, totalPurchased: 19 },
+    { id: 'c', name: 'คุณ C', phone: '083-333-3333', sticks: 2, pendingRewards: 1, savedRewards: 2, totalPurchased: 32 },
   ]);
   protected readonly selectedCustomerId = signal('a');
   protected readonly displayPulseKey = signal(0);
@@ -83,9 +69,8 @@ export class App {
     return remaining === 10 ? 'เริ่มสะสมรอบใหม่ได้เลย' : `อีก ${remaining} ไม้จะได้รับ reward`;
   });
 
-  protected selectCustomer(event: Event): void {
-    const select = event.target as HTMLSelectElement;
-    this.selectedCustomerId.set(select.value);
+  protected selectCustomer(customerId: string): void {
+    this.selectedCustomerId.set(customerId);
     this.pendingSticks.set(0);
     this.displayPulseKey.update((value) => value + 1);
   }
@@ -155,20 +140,44 @@ export class App {
     this.displayPulseKey.update((value) => value + 1);
   }
 
-  protected claimReward(rewardName: string): void {
+  protected claimReward(reward: RewardOption): void {
     const customer = this.selectedCustomer();
 
-    if (customer.pendingRewards <= 0) {
+    if (customer.pendingRewards + customer.savedRewards <= 0) {
+      return;
+    }
+
+    if (reward.id === 'save-later' && customer.pendingRewards <= 0) {
       return;
     }
 
     this.customers.update((customers) =>
-      customers.map((item) =>
-        item.id === customer.id ? { ...item, pendingRewards: item.pendingRewards - 1 } : item,
-      ),
+      customers.map((item) => {
+        if (item.id !== customer.id) {
+          return item;
+        }
+
+        if (reward.id === 'save-later') {
+          return {
+            ...item,
+            pendingRewards: item.pendingRewards - 1,
+            savedRewards: item.savedRewards + 1,
+          };
+        }
+
+        if (item.pendingRewards > 0) {
+          return { ...item, pendingRewards: item.pendingRewards - 1 };
+        }
+
+        return { ...item, savedRewards: item.savedRewards - 1 };
+      }),
     );
 
-    this.pushLineMessage(`${customer.name} เลือกของแถมเป็น ${rewardName} เรียบร้อยแล้ว`);
+    this.pushLineMessage(
+      reward.id === 'save-later'
+        ? `${customer.name} เก็บ reward ไว้ใช้ครั้งหน้า ตอนนี้มีสิทธิ์ที่เก็บไว้ ${customer.savedRewards + 1} สิทธิ์`
+        : `${customer.name} เลือกของแถมเป็น ${reward.name} เรียบร้อยแล้ว`,
+    );
     this.displayPulseKey.update((value) => value + 1);
   }
 

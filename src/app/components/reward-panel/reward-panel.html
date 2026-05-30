@@ -1,0 +1,37 @@
+<article id="reward" class="panel reward-panel">
+  <header>
+    <p class="eyebrow">Customer Choice</p>
+    <h3>ลูกค้าเลือกของแถมเอง</h3>
+  </header>
+
+  <div class="reward-ledger">
+    <div>
+      <span>พร้อมเลือกตอนนี้</span>
+      <strong>{{ customer().pendingRewards }}</strong>
+    </div>
+    <div>
+      <span>สิทธิ์ที่เก็บไว้</span>
+      <strong>{{ customer().savedRewards }}</strong>
+    </div>
+  </div>
+
+  @if (customer().pendingRewards + customer().savedRewards > 0) {
+    <p class="hint">
+      เลือกของแถมจากสิทธิ์ที่มีอยู่ได้เลย ถ้ายังไม่รับตอนนี้ให้กดเก็บสิทธิ์ไว้ก่อน
+    </p>
+    <div class="reward-options">
+      @for (reward of rewards(); track reward.id) {
+        <button
+          type="button"
+          [disabled]="reward.id === 'save-later' && customer().pendingRewards === 0"
+          (click)="rewardSelected.emit(reward)"
+        >
+          <span>{{ reward.icon }}</span>
+          {{ reward.name }}
+        </button>
+      }
+    </div>
+  } @else {
+    <p class="empty-state">ยังไม่มี reward ที่รอเลือก เพิ่มยอดซื้อให้ครบ 10 ไม้ก่อนครับ</p>
+  }
+</article>

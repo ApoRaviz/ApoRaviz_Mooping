@@ -1,10 +1,15 @@
 # 02 Angular Structure
 
-MVP เริ่มจาก component เดียวก่อนเพื่อให้เห็น business flow ชัดเจน แต่ใน HTML แยกเป็น semantic sections แล้ว:
+MVP ตอนแรกเริ่มจาก component เดียวเพื่อให้เห็น business flow ชัดเจน ตอนนี้แยกเป็น components แล้วเพื่อให้ใกล้โครงใช้งานจริงมากขึ้น:
 
-- `app.ts` เก็บ state และ loyalty logic
-- `app.html` แยก `home`, `demo`, `reward`, และ `line-oa` เพื่อให้ navigation และ case study อ่านง่าย
+- `app.ts` เป็น container ถือ mock data, state และ business logic
+- `components/top-nav` แสดง navigation
+- `components/display-panel` แสดง iPad storefront preview
+- `components/pos-panel` แสดง POS flow และ emit action กลับขึ้น `app.ts`
+- `components/reward-panel` แสดง reward choice และสิทธิ์ที่เก็บไว้
+- `components/line-panel` แสดง mock LINE OA messages
+- `app.html` จัด section หลัก `home`, `demo`, และ `line-oa`
 - `app.css` ใช้ dark premium + orange accent ให้ไปทิศทางเดียวกับ ApoRaviz Portfolio
 - iPad display มี CSS animation สำหรับ grill stage, heat lines, progress rail และ stamp glow โดยเคารพ `prefers-reduced-motion`
 
-เมื่อระบบโตขึ้น ค่อยแยกเป็น standalone components เช่น POS panel, reward panel, iPad display และ line notification panel
+โครงนี้ยังใช้ mock data แต่แยก presentation components ออกจาก business logic แล้ว จึงต่อยอดเป็น service, localStorage หรือ backend ได้ง่ายขึ้น

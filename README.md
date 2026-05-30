@@ -31,6 +31,7 @@
 npm install
 npm start
 npm run build
+npm run build:gh-pages
 ```
 
 ## Documentation
@@ -40,5 +41,6 @@ npm run build
 - [User Flow](docs/user-flow.md)
 - [Data Model](docs/data-model.md)
 - [LINE OA Plan](docs/line-oa.md)
+- [Deploy Commands](docs/commands/04-deploy.md)
 - [Teach Notes](docs/teach/01-project-idea.md)
 - [Progress](progress.md)

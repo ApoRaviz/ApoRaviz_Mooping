@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:gh-pages": "ng build --configuration production --base-href /mooping/",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:MooPing_Loyalty": "node dist/MooPing_Loyalty/server/server.mjs"

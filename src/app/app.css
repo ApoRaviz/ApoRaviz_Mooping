@@ -50,6 +50,13 @@ a {
   text-decoration: none;
 }
 
+app-display-panel,
+app-pos-panel,
+app-reward-panel,
+app-line-panel {
+  display: block;
+}
+
 .brand {
   color: var(--text);
   font-weight: 900;
@@ -237,6 +244,23 @@ h3 {
 .display-panel small {
   color: var(--muted);
   font-size: 0.95rem;
+}
+
+.display-reward-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.display-reward-row span {
+  border: 1px solid rgba(255, 107, 0, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 107, 0, 0.08);
+  color: #ffcfad;
+  font-size: 0.84rem;
+  font-weight: 900;
+  padding: 10px;
+  text-align: center;
 }
 
 .grill-stage {
@@ -559,6 +583,34 @@ button:disabled:focus-visible {
   font-size: 1.35rem;
 }
 
+.reward-ledger {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.reward-ledger div {
+  border: 1px solid rgba(255, 107, 0, 0.16);
+  border-radius: 8px;
+  background: rgba(255, 107, 0, 0.08);
+  padding: 14px;
+}
+
+.reward-ledger span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.84rem;
+  font-weight: 800;
+}
+
+.reward-ledger strong {
+  display: block;
+  color: #ffb27a;
+  font-size: 2rem;
+  line-height: 1;
+  margin-top: 8px;
+}
+
 .reward-options button {
   display: flex;
   align-items: center;
@@ -663,6 +715,8 @@ button:disabled:focus-visible {
   .quick-actions,
   .ticket-actions,
   .confirm-row,
+  .display-reward-row,
+  .reward-ledger,
   .reward-options {
     grid-template-columns: 1fr;
   }

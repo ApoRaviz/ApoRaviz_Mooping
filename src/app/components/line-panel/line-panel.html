@@ -1,0 +1,10 @@
+<article class="panel line-panel">
+  <div class="phone" aria-label="Mock LINE OA messages">
+    @for (message of messages(); track message.id) {
+      <div class="bubble">
+        <span>{{ message.time }}</span>
+        <p>{{ message.text }}</p>
+      </div>
+    }
+  </div>
+</article>

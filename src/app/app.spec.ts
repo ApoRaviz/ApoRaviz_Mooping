@@ -51,4 +51,29 @@ describe('App', () => {
     expect(compiled.textContent).toContain('7/10');
     expect(compiled.textContent).toContain('Reward รอเลือก0');
   });
+
+  it('should keep saved rewards visible when a customer saves the reward for later', async () => {
+    const fixture = TestBed.createComponent(App);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const compiled = fixture.nativeElement as HTMLElement;
+    const buttons = () => Array.from(compiled.querySelectorAll('button'));
+    const clickButton = (label: string) => {
+      const button = buttons().find((item) => item.textContent?.includes(label));
+      expect(button).toBeTruthy();
+      button?.click();
+      fixture.detectChanges();
+    };
+
+    clickButton('+3 ไม้');
+    clickButton('ยืนยันบันทึกยอด');
+    await fixture.whenStable();
+    expect(compiled.textContent).toContain('Reward รอเลือก1');
+
+    clickButton('เก็บสิทธิ์ไว้ก่อน');
+    await fixture.whenStable();
+    expect(compiled.textContent).toContain('Reward รอเลือก0');
+    expect(compiled.textContent).toContain('สิทธิ์ที่เก็บไว้1');
+  });
 });

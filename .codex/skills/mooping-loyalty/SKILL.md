@@ -18,6 +18,8 @@ description: Use when building or updating the MooPing Loyalty Angular project, 
 - Extra sticks after a reward continue into the next round.
 - Customers choose their own reward when a reward is available.
 - Reward choices start with `หมูปิ้ง 1 ไม้`, `ข้าวเหนียว 1 ห่อ`, and `เก็บสิทธิ์ไว้ก่อน`.
+- Choosing `เก็บสิทธิ์ไว้ก่อน` must move a pending reward into saved rewards; the right must stay visible and usable later.
+- POS sales should be staged as a pending ticket first, then confirmed; staff must be able to clear, delete, or undo the latest sale.
 
 ## UX Direction
 

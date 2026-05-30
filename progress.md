@@ -12,6 +12,9 @@
 - [x] Restructure page into semantic sections with anchor navigation
 - [x] Add animated iPad display for storefront demo
 - [x] Add POS confirmation, clear, delete, and undo latest sale flow
+- [x] Split UI into focused Angular components
+- [x] Track saved rewards when customers choose to keep reward rights for later
+- [x] Add GitHub Pages CI/CD workflow for mock demo deployment
 
 ## Phase 2: MVP Improvements
 
