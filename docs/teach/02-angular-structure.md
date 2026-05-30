@@ -1,15 +1,134 @@
-# 02 Angular Structure
+# 02 Angular Structure และการแยก Component
 
-MVP ตอนแรกเริ่มจาก component เดียวเพื่อให้เห็น business flow ชัดเจน ตอนนี้แยกเป็น components แล้วเพื่อให้ใกล้โครงใช้งานจริงมากขึ้น:
+ไฟล์นี้สอนโครงสร้าง Angular แบบที่อ่านง่ายและต่อยอดได้ โดยใช้โปรเจกต์ MooPing Loyalty เป็นตัวอย่าง
 
-- `app.ts` เป็น container ถือ mock data, state และ business logic
-- `components/top-nav` แสดง navigation
-- `components/display-panel` แสดง iPad storefront preview
-- `components/pos-panel` แสดง POS flow และ emit action กลับขึ้น `app.ts`
-- `components/reward-panel` แสดง reward choice และสิทธิ์ที่เก็บไว้
-- `components/line-panel` แสดง mock LINE OA messages
-- `app.html` จัด section หลัก `home`, `demo`, และ `line-oa`
-- `app.css` ใช้ dark premium + orange accent ให้ไปทิศทางเดียวกับ ApoRaviz Portfolio
-- iPad display มี CSS animation สำหรับ grill stage, heat lines, progress rail และ stamp glow โดยเคารพ `prefers-reduced-motion`
+## ทำไมไม่ควรใส่ทุกอย่างไว้ในไฟล์เดียว
 
-โครงนี้ยังใช้ mock data แต่แยก presentation components ออกจาก business logic แล้ว จึงต่อยอดเป็น service, localStorage หรือ backend ได้ง่ายขึ้น
+ตอนเริ่ม MVP การเขียนทุกอย่างไว้ใน `app.ts`, `app.html`, และ `app.css` ช่วยให้เห็นภาพเร็ว
+
+แต่เมื่อ flow เริ่มมีหลายส่วน เช่น POS, iPad display, reward, LINE OA mock ถ้ายังรวมไว้ในไฟล์เดียวจะเริ่มมีปัญหา:
+
+- หา logic ยาก
+- แก้ UI จุดหนึ่งแล้วกระทบอีกจุดง่าย
+- test ยากขึ้น
+- คนอ่าน portfolio ไม่เห็นว่าเราออกแบบระบบเป็นส่วน ๆ ได้
+
+ดังนั้นจึงควรแยกเป็น focused components
+
+## Container Component คืออะไร
+
+`app.ts` ในโปรเจกต์นี้ทำหน้าที่เป็น container component
+
+หน้าที่ของ container:
+
+- ถือ mock data หลัก
+- ถือ state กลางของหน้า
+- คำนวณ business logic
+- รับ event จาก component ลูก
+- ส่งข้อมูลลงไปให้ component ลูกแสดงผล
+
+แนวคิดคือ:
+
+```text
+container รู้ว่าระบบทำงานอย่างไร
+presentation component รู้ว่าต้องแสดงอะไร
+```
+
+## Presentation Component คืออะไร
+
+Presentation component คือ component ที่เน้นแสดงผลและรับ action จากผู้ใช้
+
+ตัวอย่างในโปรเจกต์:
+
+```text
+top-nav = navigation
+display-panel = iPad storefront preview
+pos-panel = staff POS workflow
+reward-panel = customer reward choice
+line-panel = mock LINE OA messages
+```
+
+ข้อดีคือแต่ละ component มีหน้าที่ชัด:
+
+- `pos-panel` ไม่ต้องรู้วิธีคำนวณ reward ทั้งระบบ
+- `reward-panel` ไม่ต้องรู้ว่า LINE OA ส่งข้อความอย่างไร
+- `display-panel` ไม่ต้องแก้ยอดลูกค้าเอง
+
+## input() ใช้ทำอะไร
+
+ใน Angular รุ่นใหม่ component ลูกรับข้อมูลผ่าน `input()`
+
+ตัวอย่างแนวคิด:
+
+```ts
+readonly customer = input.required<Customer>();
+```
+
+แปลว่า:
+
+- component นี้ต้องได้รับ `Customer`
+- ข้อมูลถูกส่งมาจาก parent
+- component ลูกไม่ต้องไปหา data เอง
+
+ข้อดีคือ component อ่านง่ายและ test ง่าย เพราะ input ชัดเจน
+
+## output() ใช้ทำอะไร
+
+ถ้า component ลูกต้องบอก parent ว่าผู้ใช้ทำอะไร ใช้ `output()`
+
+ตัวอย่างแนวคิด:
+
+```ts
+readonly confirmSale = output<void>();
+```
+
+แล้วใน template:
+
+```html
+<button type="button" (click)="confirmSale.emit()">Confirm</button>
+```
+
+แปลว่า:
+
+```text
+ลูกไม่แก้ state เอง
+ลูกส่ง event ขึ้นไปให้ parent ตัดสินใจ
+```
+
+แนวนี้เรียกว่า one-way data flow:
+
+```text
+parent ส่ง data ลง
+child ส่ง event ขึ้น
+```
+
+## ทำไมยังไม่รีบสร้าง Service
+
+โปรเจกต์นี้ยังใช้ mock data จึงให้ `app.ts` ถือ state กลางก่อน
+
+เหตุผล:
+
+- learning flow อ่านง่าย
+- ยังไม่สร้าง abstraction เร็วเกินไป
+- business rule ยังปรับได้
+- เมื่อมี backend หรือ localStorage ค่อยย้าย logic ไป service
+
+service ที่น่าจะเกิดใน production:
+
+```text
+CustomerService
+LoyaltyService
+RewardService
+LineNotificationService
+```
+
+## สิ่งที่ควรเรียนจากไฟล์นี้
+
+โครงสร้างที่ดีไม่ได้แปลว่าแยกไฟล์เยอะที่สุด แต่แปลว่าแต่ละไฟล์มีเหตุผลชัดเจน
+
+จำง่าย:
+
+```text
+แยก component เมื่อมันมีหน้าที่ของตัวเอง
+ยังไม่แยก service ถ้ายังไม่มี data source หรือ logic กลางที่จำเป็นจริง
+```

@@ -24,4 +24,7 @@
 - [ ] Add real iPad display route
 - [ ] Prepare portfolio case study page content
 - [x] Add teach notes for POS correction, saved rewards, component refactor, and CI/CD
+- [x] Rewrite teach notes into reusable learning docs aligned with ApoRaviz Portfolio style
 - [x] Add command docs for test, git, and CI/CD
+- [x] Feed MooPing learning rules back into the workspace `NEW_PROJECT_GUIDE.md`
+- [x] Link MooPing demo and GitHub repo as Quest 1 in ApoRaviz Portfolio

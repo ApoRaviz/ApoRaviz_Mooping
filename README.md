@@ -15,7 +15,7 @@
 - Loyalty rule: ครบ 10 ไม้ ได้ reward 1 สิทธิ์ทันที
 - Customer reward choice: ลูกค้าเลือกของแถมเองเมื่อมีสิทธิ์
 - Mock LINE OA message panel
-- เอกสาร `docs/`, `docs/teach/`, และ `progress.md` สำหรับเรียนรู้และติดตามงาน
+- เอกสาร `docs/`, learning path ใน `docs/teach/`, และ `progress.md` สำหรับเรียนรู้และติดตามงาน
 
 ## Tech Stack
 
@@ -45,5 +45,5 @@ npm run build:gh-pages
 - [Test Commands](docs/commands/05-test.md)
 - [Git Commands](docs/commands/06-git.md)
 - [CI/CD Commands](docs/commands/07-cicd.md)
-- [Teach Notes](docs/teach/01-project-idea.md)
+- [Teach Notes Learning Path](docs/teach/README.md)
 - [Progress](progress.md)
