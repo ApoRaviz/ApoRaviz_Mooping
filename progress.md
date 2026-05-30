@@ -11,6 +11,7 @@
 - [x] Align visual direction with ApoRaviz dark-orange brand
 - [x] Restructure page into semantic sections with anchor navigation
 - [x] Add animated iPad display for storefront demo
+- [x] Add POS confirmation, clear, delete, and undo latest sale flow
 
 ## Phase 2: MVP Improvements
 

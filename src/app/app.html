@@ -87,8 +87,42 @@
 
         <div class="quick-actions" aria-label="Quick add sticks">
           @for (amount of quickAmounts; track amount) {
-            <button type="button" (click)="addSticks(amount)">+{{ amount }} ไม้</button>
+            <button type="button" (click)="addPendingSticks(amount)">+{{ amount }} ไม้</button>
           }
+        </div>
+
+        <div class="sale-ticket" [class.has-pending]="pendingSticks() > 0">
+          <div>
+            <span>รายการรอยืนยัน</span>
+            <strong>{{ pendingSticks() }} ไม้</strong>
+          </div>
+
+          @if (pendingSticks() > 0) {
+            <p>
+              หลังยืนยัน: สะสม {{ checkoutPreview().nextProgressLabel }},
+              reward ใหม่ {{ checkoutPreview().earnedRewards }} สิทธิ์
+            </p>
+          } @else {
+            <p>กดจำนวนไม้ก่อน ระบบจะยังไม่บันทึกจนกว่าจะกดยืนยัน</p>
+          }
+
+          <div class="ticket-actions" aria-label="Sale correction actions">
+            <button type="button" class="ghost-button" [disabled]="pendingSticks() === 0" (click)="removePendingStick()">
+              ลบ 1 ไม้
+            </button>
+            <button type="button" class="ghost-button danger-button" [disabled]="pendingSticks() === 0" (click)="clearPendingSale()">
+              ล้างรายการ
+            </button>
+          </div>
+        </div>
+
+        <div class="confirm-row" aria-label="Confirm sale actions">
+          <button type="button" class="confirm-button" [disabled]="pendingSticks() === 0" (click)="confirmPendingSale()">
+            ยืนยันบันทึกยอด
+          </button>
+          <button type="button" class="undo-button" [disabled]="!lastSale()" (click)="undoLastSale()">
+            ยกเลิกรายการล่าสุด
+          </button>
         </div>
 
         <div class="summary">

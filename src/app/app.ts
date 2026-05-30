@@ -15,6 +15,12 @@ type LineMessage = {
   text: string;
 };
 
+type LastSale = {
+  customerId: string;
+  customerBefore: Customer;
+  sticksAdded: number;
+};
+
 @Component({
   selector: 'app-root',
   imports: [],
@@ -36,6 +42,8 @@ export class App {
   ]);
   protected readonly selectedCustomerId = signal('a');
   protected readonly displayPulseKey = signal(0);
+  protected readonly pendingSticks = signal(0);
+  protected readonly lastSale = signal<LastSale | null>(null);
   protected readonly lineMessages = signal<LineMessage[]>([
     {
       id: 1,
@@ -49,6 +57,20 @@ export class App {
   });
 
   protected readonly stamps = computed(() => Array.from({ length: 10 }, (_, index) => index + 1));
+
+  protected readonly checkoutPreview = computed(() => {
+    const customer = this.selectedCustomer();
+    const pending = this.pendingSticks();
+    const nextTotalSticks = customer.sticks + pending;
+    const earnedRewards = Math.floor(nextTotalSticks / 10);
+
+    return {
+      earnedRewards,
+      remainingSticks: nextTotalSticks % 10,
+      nextTotalPurchased: customer.totalPurchased + pending,
+      nextProgressLabel: pending > 0 ? `${nextTotalSticks % 10}/10` : `${customer.sticks}/10`,
+    };
+  });
 
   protected readonly progressMessage = computed(() => {
     const customer = this.selectedCustomer();
@@ -64,33 +86,72 @@ export class App {
   protected selectCustomer(event: Event): void {
     const select = event.target as HTMLSelectElement;
     this.selectedCustomerId.set(select.value);
+    this.pendingSticks.set(0);
     this.displayPulseKey.update((value) => value + 1);
   }
 
-  protected addSticks(amount: number): void {
+  protected addPendingSticks(amount: number): void {
+    this.pendingSticks.update((sticks) => Math.min(sticks + amount, 99));
+  }
+
+  protected removePendingStick(): void {
+    this.pendingSticks.update((sticks) => Math.max(sticks - 1, 0));
+  }
+
+  protected clearPendingSale(): void {
+    this.pendingSticks.set(0);
+  }
+
+  protected confirmPendingSale(): void {
+    const amount = this.pendingSticks();
+
+    if (amount <= 0) {
+      return;
+    }
+
     const customer = this.selectedCustomer();
-    const nextTotalSticks = customer.sticks + amount;
+    const customerBefore = { ...customer };
+    const nextTotalSticks = customerBefore.sticks + amount;
     const earnedRewards = Math.floor(nextTotalSticks / 10);
     const remainingSticks = nextTotalSticks % 10;
 
     this.customers.update((customers) =>
       customers.map((item) =>
-        item.id === customer.id
+        item.id === customerBefore.id
           ? {
               ...item,
               sticks: remainingSticks,
-              pendingRewards: item.pendingRewards + earnedRewards,
-              totalPurchased: item.totalPurchased + amount,
+              pendingRewards: customerBefore.pendingRewards + earnedRewards,
+              totalPurchased: customerBefore.totalPurchased + amount,
             }
           : item,
       ),
     );
 
+    this.lastSale.set({ customerId: customerBefore.id, customerBefore, sticksAdded: amount });
+    this.pendingSticks.set(0);
     this.pushLineMessage(
       earnedRewards > 0
-        ? `${customer.name} ซื้อเพิ่ม ${amount} ไม้ ครบ 10 แล้ว เลือกของแถมได้ ${earnedRewards} สิทธิ์`
-        : `${customer.name} ซื้อเพิ่ม ${amount} ไม้ ${10 - remainingSticks} ไม้จะครบ reward แล้ว`,
+        ? `${customerBefore.name} ซื้อเพิ่ม ${amount} ไม้ ครบ 10 แล้ว เลือกของแถมได้ ${earnedRewards} สิทธิ์`
+        : `${customerBefore.name} ซื้อเพิ่ม ${amount} ไม้ ${10 - remainingSticks} ไม้จะครบ reward แล้ว`,
     );
+    this.displayPulseKey.update((value) => value + 1);
+  }
+
+  protected undoLastSale(): void {
+    const sale = this.lastSale();
+
+    if (!sale) {
+      return;
+    }
+
+    this.customers.update((customers) =>
+      customers.map((customer) => (customer.id === sale.customerId ? { ...sale.customerBefore } : customer)),
+    );
+    this.selectedCustomerId.set(sale.customerId);
+    this.lastSale.set(null);
+    this.pendingSticks.set(0);
+    this.pushLineMessage(`${sale.customerBefore.name} ยกเลิกรายการล่าสุด ${sale.sticksAdded} ไม้ และคืนยอดเดิมแล้ว`);
     this.displayPulseKey.update((value) => value + 1);
   }
 
