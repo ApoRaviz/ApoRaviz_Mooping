@@ -1,0 +1,150 @@
+<main class="shell">
+  <!-- ใช้ nav เพราะเป็นชุดลิงก์สำหรับกระโดดไปยัง section หลักของหน้า demo -->
+  <nav class="top-nav" aria-label="MooPing page navigation">
+    <a class="brand" href="#home">MooPing Loyalty</a>
+    <div class="nav-links">
+      <a href="#demo">Demo</a>
+      <a href="#reward">Reward</a>
+      <a href="#line-oa">LINE OA</a>
+    </div>
+  </nav>
+
+  <!-- ใช้ section เพราะเป็น hero หลักและมี id สำหรับ navigation -->
+  <section id="home" class="hero section-shell" aria-labelledby="hero-title">
+    <div class="hero-copy">
+      <p class="eyebrow">ApoRaviz Project Lab</p>
+      <h1 id="hero-title">ระบบสะสมหมูปิ้ง ซื้อครบ 10 ไม้ ลูกค้าเลือกของแถมเอง</h1>
+      <p class="lead">
+        Demo สำหรับหน้าร้านจริง: พนักงานบันทึกยอดซื้อ ระบบคำนวณสิทธิ์ทันที
+        และจำลองข้อความ LINE OA เมื่อใกล้ครบหรือได้รับ reward
+      </p>
+      <div class="hero-actions" aria-label="Primary actions">
+        <a class="primary-link" href="#demo">ลองระบบหน้าร้าน</a>
+        <a class="secondary-link" href="#line-oa">ดู LINE OA mock</a>
+      </div>
+    </div>
+
+    <aside
+      class="display-panel"
+      [class.reward-ready]="selectedCustomer().pendingRewards > 0"
+      [style.--pulse-key]="displayPulseKey()"
+      aria-label="Shop iPad display preview"
+    >
+      <span class="display-label">iPad Display</span>
+      <div class="grill-stage" aria-hidden="true">
+        <div class="heat-lines">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div class="skewer skewer-one">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div class="skewer skewer-two">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+      <strong>{{ selectedCustomer().name }}</strong>
+      <p>{{ selectedCustomer().sticks }} / 10 sticks</p>
+      <div class="progress-track" aria-hidden="true">
+        <span [style.width.%]="selectedCustomer().sticks * 10"></span>
+      </div>
+      <div class="stamp-grid" aria-label="Loyalty stamp progress">
+        @for (stamp of stamps(); track stamp) {
+          <span class="stamp" [class.filled]="stamp <= selectedCustomer().sticks">
+            {{ stamp }}
+          </span>
+        }
+      </div>
+      <small>{{ progressMessage() }}</small>
+    </aside>
+  </section>
+
+  <!-- ใช้ section แยก demo เพื่อให้โครงสร้างอ่านเหมือนหน้า portfolio และต่อ route/component ได้ง่าย -->
+  <section id="demo" class="section-shell demo-section" aria-labelledby="demo-title">
+    <header class="section-header">
+      <p class="eyebrow">Live Demo</p>
+      <h2 id="demo-title">POS สำหรับพนักงานหน้าร้าน</h2>
+    </header>
+
+    <div class="workspace">
+      <article class="panel pos-panel">
+        <header>
+          <p class="eyebrow">POS Mode</p>
+          <h3>บันทึกยอดซื้อ</h3>
+        </header>
+
+        <label for="customer">เลือกลูกค้า</label>
+        <select id="customer" [value]="selectedCustomerId()" (change)="selectCustomer($event)">
+          @for (customer of customers(); track customer.id) {
+            <option [value]="customer.id">{{ customer.name }} - {{ customer.phone }}</option>
+          }
+        </select>
+
+        <div class="quick-actions" aria-label="Quick add sticks">
+          @for (amount of quickAmounts; track amount) {
+            <button type="button" (click)="addSticks(amount)">+{{ amount }} ไม้</button>
+          }
+        </div>
+
+        <div class="summary">
+          <div>
+            <span>ยอดสะสม</span>
+            <strong>{{ selectedCustomer().sticks }}/10</strong>
+          </div>
+          <div>
+            <span>Reward รอเลือก</span>
+            <strong>{{ selectedCustomer().pendingRewards }}</strong>
+          </div>
+          <div>
+            <span>ซื้อทั้งหมด</span>
+            <strong>{{ selectedCustomer().totalPurchased }}</strong>
+          </div>
+        </div>
+      </article>
+
+      <article id="reward" class="panel reward-panel">
+        <header>
+          <p class="eyebrow">Customer Choice</p>
+          <h3>ลูกค้าเลือกของแถมเอง</h3>
+        </header>
+
+        @if (selectedCustomer().pendingRewards > 0) {
+          <p class="hint">คุณมี reward {{ selectedCustomer().pendingRewards }} สิทธิ์ เลือกของแถมที่ต้องการได้เลย</p>
+          <div class="reward-options">
+            @for (reward of rewards; track reward.id) {
+              <button type="button" (click)="claimReward(reward.name)">
+                <span>{{ reward.icon }}</span>
+                {{ reward.name }}
+              </button>
+            }
+          </div>
+        } @else {
+          <p class="empty-state">ยังไม่มี reward ที่รอเลือก เพิ่มยอดซื้อให้ครบ 10 ไม้ก่อนครับ</p>
+        }
+      </article>
+    </div>
+  </section>
+
+  <section id="line-oa" class="section-shell line-section" aria-labelledby="line-title">
+    <header class="section-header">
+      <p class="eyebrow">Retention Layer</p>
+      <h2 id="line-title">Mock LINE OA สำหรับแจ้งเตือนลูกค้า</h2>
+    </header>
+
+    <article class="panel line-panel">
+      <div class="phone" aria-label="Mock LINE OA messages">
+        @for (message of lineMessages(); track message.id) {
+          <div class="bubble">
+            <span>{{ message.time }}</span>
+            <p>{{ message.text }}</p>
+          </div>
+        }
+      </div>
+    </article>
+  </section>
+</main>
