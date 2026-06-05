@@ -24,6 +24,8 @@
 - [x] 0.9 รวม command docs ที่สั้นเกินไปเป็น `docs/commands.md`
 - [x] 0.10 รวม overview, requirements, user flow, data model และ LINE OA plan เป็น `docs/product-spec.md`
 - [x] 0.11 ลบ generic UI skill copy ที่ซ้ำกับกติกากลาง เหลือ project-specific skill ของ MooPing
+- [x] 0.12 เชื่อม `docs/teach/README.md` กลับไป `_docs/angular/teach/` เพื่อแยก common Angular concept ออกจากบทเรียนเฉพาะระบบหมูปิ้ง
+- [x] 0.13 เชื่อม `docs/commands.md` กลับไป `_docs/angular/commands.md` และ `_docs/git/commands.md`
 
 ## Step 1 - POS UI Ready For Real Use
 

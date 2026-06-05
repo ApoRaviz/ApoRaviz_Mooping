@@ -2,6 +2,15 @@
 
 เอกสารนี้รวมคำสั่งของโปรเจกต์ `ApoRaviz_Mooping` ไว้ไฟล์เดียว เพราะตอนนี้คำสั่งยังสั้นและผูกกับ repo นี้โดยตรง
 
+Command pattern กลางของ Angular และ Git อยู่ที่:
+
+```text
+_docs/angular/commands.md
+_docs/git/commands.md
+```
+
+ไฟล์นี้เก็บรายละเอียดเฉพาะ MooPing เช่น repo URL, base-href, output path และ test coverage ของโปรเจกต์นี้
+
 ## Setup
 
 ```bash

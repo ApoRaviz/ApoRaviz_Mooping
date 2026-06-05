@@ -33,3 +33,5 @@
 - [x] Add command docs for test, git, and CI/CD
 - [x] Feed MooPing learning rules back into the workspace `NEW_PROJECT_GUIDE.md`
 - [x] Link MooPing demo and GitHub repo as Quest 1 in ApoRaviz Portfolio
+- [x] Link MooPing teach and commands back to central `_docs/angular/` and `_docs/git/`
+- [x] Clarify that MooPing teach keeps POS, loyalty, LINE OA, and state modeling examples while common Angular concepts live in `_docs/angular/`
