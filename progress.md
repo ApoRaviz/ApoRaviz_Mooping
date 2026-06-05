@@ -15,9 +15,14 @@
 - [x] Split UI into focused Angular components
 - [x] Track saved rewards when customers choose to keep reward rights for later
 - [x] Add GitHub Pages CI/CD workflow for mock demo deployment
+- [x] Add implementation plan with step/substep checklist for upcoming work
+- [x] Consolidate MooPing command docs into one `docs/commands.md`
+- [x] Consolidate small product docs into one `docs/product-spec.md`
+- [x] Remove duplicated generic UI skill copy and keep project-specific MooPing skill
 
 ## Phase 2: MVP Improvements
 
+- [ ] Redesign first screen into real POS workspace
 - [x] Split POS, reward, display, and LINE panels into standalone components
 - [ ] Add localStorage persistence
 - [ ] Add purchase and reward claim history
