@@ -45,7 +45,7 @@ npm run build:gh-pages
 GitHub Pages ใช้ base path:
 
 ```text
-/mooping/
+/ApoRaviz_Mooping/
 ```
 
 Static files ถูกสร้างที่:
@@ -86,7 +86,7 @@ git push
 Remote repository:
 
 ```text
-https://github.com/ApoRaviz/mooping.git
+https://github.com/ApoRaviz/ApoRaviz_Mooping.git
 ```
 
 ## CI/CD
@@ -109,13 +109,13 @@ deploy to GitHub Pages
 Production URL:
 
 ```text
-https://aporaviz.github.io/mooping/
+https://aporaviz.github.io/ApoRaviz_Mooping/
 ```
 
 Actions page:
 
 ```text
-https://github.com/ApoRaviz/mooping/actions
+https://github.com/ApoRaviz/ApoRaviz_Mooping/actions
 ```
 
 Local verification before pushing:

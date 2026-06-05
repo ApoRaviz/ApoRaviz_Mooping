@@ -74,19 +74,19 @@ npm ci
 GitHub Pages แบบ project site มักอยู่ใต้ path ของ repo เช่น:
 
 ```text
-https://aporaviz.github.io/mooping/
+https://aporaviz.github.io/ApoRaviz_Mooping/
 ```
 
 ดังนั้น Angular ต้องรู้ว่า asset ควรถูกโหลดใต้ path:
 
 ```text
-/mooping/
+/ApoRaviz_Mooping/
 ```
 
 จึงต้อง build ด้วย:
 
 ```bash
-ng build --configuration production --base-href /mooping/
+ng build --configuration production --base-href /ApoRaviz_Mooping/
 ```
 
 ถ้าไม่ตั้ง `base-href` browser อาจหาไฟล์ CSS/JS ไม่เจอ และหน้าเว็บจะพังหรือสีหายได้
