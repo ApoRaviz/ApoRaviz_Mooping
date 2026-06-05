@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "MooPing_Loyalty": {
+    "ApoRaviz_Mooping": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -64,10 +64,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "MooPing_Loyalty:build:production"
+              "buildTarget": "ApoRaviz_Mooping:build:production"
             },
             "development": {
-              "buildTarget": "MooPing_Loyalty:build:development"
+              "buildTarget": "ApoRaviz_Mooping:build:development"
             }
           },
           "defaultConfiguration": "development"

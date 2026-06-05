@@ -1,5 +1,5 @@
 {
-  "name": "moo-ping-loyalty",
+  "name": "aporaviz-mooping",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -8,7 +8,7 @@
     "build:gh-pages": "ng build --configuration production --base-href /ApoRaviz_Mooping/",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:MooPing_Loyalty": "node dist/MooPing_Loyalty/server/server.mjs"
+    "serve:ssr:ApoRaviz_Mooping": "node dist/ApoRaviz_Mooping/server/server.mjs"
   },
   "private": true,
   "packageManager": "npm@11.13.0",

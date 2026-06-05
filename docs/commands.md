@@ -1,6 +1,6 @@
 # Commands
 
-เอกสารนี้รวมคำสั่งของโปรเจกต์ `MooPing_Loyalty` ไว้ไฟล์เดียว เพราะตอนนี้คำสั่งยังสั้นและผูกกับ repo นี้โดยตรง
+เอกสารนี้รวมคำสั่งของโปรเจกต์ `ApoRaviz_Mooping` ไว้ไฟล์เดียว เพราะตอนนี้คำสั่งยังสั้นและผูกกับ repo นี้โดยตรง
 
 ## Setup
 
@@ -51,7 +51,7 @@ GitHub Pages ใช้ base path:
 Static files ถูกสร้างที่:
 
 ```text
-dist/MooPing_Loyalty/browser
+dist/ApoRaviz_Mooping/browser
 ```
 
 ## Test

@@ -44,7 +44,7 @@ jobs:
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist/MooPing_Loyalty/browser
+          path: dist/ApoRaviz_Mooping/browser
 
   deploy:
     environment:

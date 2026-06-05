@@ -1,6 +1,6 @@
 # MooPing Loyalty Product Spec
 
-ไฟล์นี้รวม concept, requirements, user flow, data model และ LINE OA plan ของ `MooPing_Loyalty` ไว้ที่เดียว เพื่อให้เอกสารโปรเจกต์ไม่แตกเป็นไฟล์เล็กเกินจำเป็น
+ไฟล์นี้รวม concept, requirements, user flow, data model และ LINE OA plan ของ `ApoRaviz_Mooping` ไว้ที่เดียว เพื่อให้เอกสารโปรเจกต์ไม่แตกเป็นไฟล์เล็กเกินจำเป็น
 
 ## Overview
 
@@ -108,4 +108,3 @@ Example message:
 ```text
 คุณสะสมหมูปิ้งแล้ว 8/10 ไม้ อีก 2 ไม้ก็เลือกของแถมได้แล้วครับ
 ```
-
