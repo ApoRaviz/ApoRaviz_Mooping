@@ -11,6 +11,15 @@ _docs/git/commands.md
 
 ไฟล์นี้เก็บรายละเอียดเฉพาะ MooPing เช่น repo URL, base-href, output path และ test coverage ของโปรเจกต์นี้
 
+Command ในไฟล์นี้ควรอ่านแบบ learning note:
+
+```text
+command = ต้องพิมพ์อะไร
+purpose = ใช้ทำอะไร
+verify  = รู้ได้อย่างไรว่าผ่าน
+caution = ต้องระวังอะไร
+```
+
 ## Setup
 
 ```bash

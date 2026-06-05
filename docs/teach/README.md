@@ -29,7 +29,7 @@ ApoRaviz_Mooping/docs/commands.md  = command เฉพาะ repo/base-href/outp
 6. [POS Error Prevention และ Correction Flow](06-pos-correction-flow.md)
 7. [State Modeling สำหรับ Saved Rewards](07-saved-rewards.md)
 8. [Refactor จาก Demo ให้เป็นโครงที่ดูแลต่อได้](08-component-refactor.md)
-9. [CI/CD และ GitHub Pages สำหรับ Demo Portfolio](09-github-pages-cicd.md)
+9. [MooPing Demo Deploy Flow](09-github-pages-cicd.md)
 
 ## How To Read
 
@@ -44,3 +44,4 @@ ApoRaviz_Mooping/docs/commands.md  = command เฉพาะ repo/base-href/outp
 - ถ้าเป็น business rule, POS UX, LINE OA หรือ loyalty state ให้เก็บในโฟลเดอร์นี้
 - ถ้าเป็น Angular concept ที่ใช้ได้ทุกโปรเจกต์ ให้สรุปกลับไป `_docs/angular/teach/`
 - ถ้าเป็น command ที่มี repo URL, base-href หรือ output path เฉพาะ MooPing ให้เก็บใน `docs/commands.md`
+- ถ้า command นั้นควรถูกสอนใน context ของระบบหมูปิ้ง ให้เพิ่ม purpose, verify step และ caution ในไฟล์ teach ที่เกี่ยวข้อง

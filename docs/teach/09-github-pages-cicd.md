@@ -1,77 +1,45 @@
-# 09 CI/CD และ GitHub Pages สำหรับ Demo Portfolio
+# 09 MooPing Demo Deploy Flow
 
-ไฟล์นี้สอน CI/CD สำหรับโปรเจกต์ Angular ที่ต้อง deploy เป็น demo ให้เปิดดูได้จริง เช่น บน iPad หน้าร้านหรือใน portfolio
+ไฟล์นี้สอน deploy flow เฉพาะ `ApoRaviz_Mooping` ว่าทำไมระบบหมูปิ้งต้องมี demo URL ที่เปิดได้จริง, command แต่ละตัวใช้ทำอะไร และต้องตรวจอะไรหลัง push
 
-## CI/CD คืออะไร
-
-`CI` คือการตรวจ code อัตโนมัติทุกครั้งที่ push หรือเปิด pull request
+ถ้าต้องการเรียน concept กลางของ CI/CD และ GitHub Pages ให้อ่าน:
 
 ```text
-install dependencies
-run tests
-build project
+_docs/angular/teach/07-cicd-github-pages.md
+_docs/angular/commands.md
 ```
 
-`CD` คือการ deploy อัตโนมัติหลังจากผ่านขั้นตอนตรวจแล้ว
+## ทำไม MooPing ต้อง deploy เป็น demo จริง
 
-```text
-build ผ่าน
-→ upload artifact
-→ deploy ไป GitHub Pages
-```
-
-ข้อดีคือ demo ไม่ขึ้นอยู่กับเครื่องเรา คนอื่นเปิด URL แล้วดูได้ทันที
-
-## ทำไม Demo Portfolio ควรมี CI/CD
-
-สำหรับ portfolio การมี CI/CD แสดงให้เห็นว่าเราคิดไกลกว่า local demo
-
-สิ่งที่สื่อถึงคนดู:
+MooPing เป็นระบบหน้าร้าน ดังนั้น demo ที่เปิดได้จริงสำคัญกว่าสcreenshot เพราะคนดู portfolio ต้องเห็นว่า:
 
 - โปรเจกต์เปิดดูได้จริง
-- build/test ไม่ได้พึ่งเครื่องเราอย่างเดียว
-- เข้าใจ deployment pipeline
-- พร้อมต่อยอดเป็น production hosting ได้
+- POS flow กดได้ ไม่ใช่ภาพนิ่ง
+- reward logic ผ่าน test ก่อน deploy
+- iPad/tablet สามารถเปิด URL เพื่อ simulate หน้าร้านได้
+- Portfolio สามารถ link ไป demo ที่มีชีวิตจริง
 
-## npm ci ต่างจาก npm install ยังไง
+## Command flow ของโปรเจกต์นี้
 
-ใน CI ควรใช้:
+ก่อน push หรือหลังแก้ flow สำคัญให้รัน:
 
 ```bash
-npm ci
+npm test -- --watch=false
+npm run build:gh-pages
 ```
 
-เพราะ `npm ci`:
-
-- อ่าน dependency จาก `package-lock.json`
-- ติดตั้งซ้ำได้ deterministic กว่า
-- fail ถ้า lockfile ไม่ตรงกับ package.json
-
-จำง่าย:
+ความหมาย:
 
 ```text
-npm install = ใช้ตอนพัฒนา
-npm ci = ใช้ใน automation
+npm test -- --watch=false = ตรวจ loyalty behavior ที่มี test รองรับ
+npm run build:gh-pages    = build ด้วย base-href ของ GitHub Pages
 ```
 
-## ทำไมต้อง test ก่อน deploy
+ระบบ loyalty เกี่ยวกับสิทธิ์ลูกค้า ถ้า deploy bug ที่ทำให้ reward หาย ความน่าเชื่อถือของโปรเจกต์จะเสียทันที
 
-workflow ที่ดีควรเป็น:
+## base-href ของ MooPing
 
-```text
-npm ci
-→ npm test
-→ npm run build
-→ deploy
-```
-
-ถ้า deploy โดยไม่ test อาจเอา bug ขึ้น demo โดยไม่รู้ตัว
-
-สำหรับระบบ loyalty test สำคัญ เพราะ logic เกี่ยวกับสิทธิ์ลูกค้า ถ้าผิดจะกระทบความเชื่อใจ
-
-## base-href คืออะไร
-
-GitHub Pages แบบ project site มักอยู่ใต้ path ของ repo เช่น:
+repo นี้ deploy เป็น GitHub Pages project site ที่:
 
 ```text
 https://aporaviz.github.io/ApoRaviz_Mooping/
@@ -121,8 +89,31 @@ dist/ApoRaviz_Mooping/browser
 
 workflow จึงต้อง upload folder นี้ ไม่ใช่ upload ทั้ง repo
 
+## ตรวจอะไรหลัง deploy
+
+หลัง workflow ผ่าน ให้เปิด:
+
+```text
+https://aporaviz.github.io/ApoRaviz_Mooping/
+```
+
+แล้วลอง flow:
+
+1. เลือกลูกค้า
+2. เพิ่มยอดซื้อ
+3. กดยืนยัน
+4. ตรวจ reward/pending/saved reward
+5. ลอง save reward for later
+6. ตรวจ mock LINE message
+
 ## สิ่งที่ควรเรียนจากไฟล์นี้
 
-CI/CD ไม่ใช่แค่เรื่อง DevOps ใหญ่ ๆ แต่เป็น skill สำคัญของ portfolio project
+deploy command ไม่ได้มีไว้แค่ส่งไฟล์ขึ้น hosting แต่เป็นส่วนหนึ่งของ system flow:
 
-ถ้าทำ demo ที่เปิดได้จริง พร้อม test/build อัตโนมัติ โปรเจกต์จะดูน่าเชื่อถือกว่าการส่ง screenshot อย่างเดียว
+```text
+business logic ถูก test
+-> build ด้วย base path ที่ถูก
+-> workflow upload artifact ถูก folder
+-> demo URL เปิดได้
+-> portfolio link น่าเชื่อถือ
+```

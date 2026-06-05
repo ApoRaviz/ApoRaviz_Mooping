@@ -26,6 +26,8 @@
 - [x] 0.11 ลบ generic UI skill copy ที่ซ้ำกับกติกากลาง เหลือ project-specific skill ของ MooPing
 - [x] 0.12 เชื่อม `docs/teach/README.md` กลับไป `_docs/angular/teach/` เพื่อแยก common Angular concept ออกจากบทเรียนเฉพาะระบบหมูปิ้ง
 - [x] 0.13 เชื่อม `docs/commands.md` กลับไป `_docs/angular/commands.md` และ `_docs/git/commands.md`
+- [x] 0.14 ปรับ deploy teach ให้เป็น MooPing-specific demo deploy flow ไม่ใช่ CI/CD กลางซ้ำ
+- [x] 0.15 ปรับ README ให้สื่อ project purpose และ MVP features ชัดเจน
 
 ## Step 1 - POS UI Ready For Real Use
 

@@ -35,3 +35,5 @@
 - [x] Link MooPing demo and GitHub repo as Quest 1 in ApoRaviz Portfolio
 - [x] Link MooPing teach and commands back to central `_docs/angular/` and `_docs/git/`
 - [x] Clarify that MooPing teach keeps POS, loyalty, LINE OA, and state modeling examples while common Angular concepts live in `_docs/angular/`
+- [x] Refocus deploy teach note into MooPing-specific demo deploy flow
+- [x] Rewrite README to explain POS, loyalty, iPad display, mock LINE OA, and current MVP features
