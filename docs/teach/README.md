@@ -22,14 +22,14 @@ ApoRaviz_Mooping/docs/commands.md  = command เฉพาะ repo/base-href/outp
 ## Recommended Order
 
 1. [Product Thinking จากปัญหาหน้าร้านจริง](01-project-idea.md)
-2. [Angular Structure และการแยก Component](02-angular-structure.md)
+2. [MooPing Screen Structure และการแยก Component](02-mooping-screen-structure.md)
 3. [Business Logic ของระบบสะสมสิทธิ์](03-loyalty-logic.md)
 4. [LINE OA และ Notification Design](04-line-oa-concept.md)
 5. [วิธีเล่าโปรเจกต์นี้เป็น Portfolio Case Study](05-portfolio-case-study.md)
 6. [POS Error Prevention และ Correction Flow](06-pos-correction-flow.md)
 7. [State Modeling สำหรับ Saved Rewards](07-saved-rewards.md)
-8. [Refactor จาก Demo ให้เป็นโครงที่ดูแลต่อได้](08-component-refactor.md)
-9. [MooPing Demo Deploy Flow](09-github-pages-cicd.md)
+8. [MooPing Demo Refactor](08-mooping-demo-refactor.md)
+9. [MooPing Demo Deploy Flow](09-mooping-demo-deploy-flow.md)
 
 ## How To Read
 

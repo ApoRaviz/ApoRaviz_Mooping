@@ -1,6 +1,6 @@
-# 02 Angular Structure และการแยก Component
+# 02 MooPing Screen Structure และการแยก Component
 
-ไฟล์นี้สอนโครงสร้าง Angular แบบที่อ่านง่ายและต่อยอดได้ โดยใช้โปรเจกต์ MooPing Loyalty เป็นตัวอย่าง
+ไฟล์นี้สอนโครงสร้างหน้าจอของ `ApoRaviz_Mooping` ว่าเราแยก POS, iPad display, reward และ LINE mock ออกจากกันอย่างไร เพื่อให้ flow หน้าร้านอ่านง่ายและต่อยอดได้
 
 ## ทำไมไม่ควรใส่ทุกอย่างไว้ในไฟล์เดียว
 

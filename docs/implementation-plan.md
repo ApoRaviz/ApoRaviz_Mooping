@@ -28,6 +28,7 @@
 - [x] 0.13 เชื่อม `docs/commands.md` กลับไป `_docs/angular/commands.md` และ `_docs/git/commands.md`
 - [x] 0.14 ปรับ deploy teach ให้เป็น MooPing-specific demo deploy flow ไม่ใช่ CI/CD กลางซ้ำ
 - [x] 0.15 ปรับ README ให้สื่อ project purpose และ MVP features ชัดเจน
+- [x] 0.16 rename teach files ให้ชื่อสื่อบทเรียนเฉพาะระบบหมูปิ้งชัดเจน
 
 ## Step 1 - POS UI Ready For Real Use
 

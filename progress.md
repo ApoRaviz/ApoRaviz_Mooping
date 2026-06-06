@@ -37,3 +37,4 @@
 - [x] Clarify that MooPing teach keeps POS, loyalty, LINE OA, and state modeling examples while common Angular concepts live in `_docs/angular/`
 - [x] Refocus deploy teach note into MooPing-specific demo deploy flow
 - [x] Rewrite README to explain POS, loyalty, iPad display, mock LINE OA, and current MVP features
+- [x] Rename MooPing teach files ให้ชื่อสื่อ domain/project-specific มากขึ้น
