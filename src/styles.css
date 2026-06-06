@@ -1,7 +1,25 @@
+/* Tailwind v4 เป็น styling system หลักของ frontend project ตามกติกากลางของ workspace */
+@import "tailwindcss";
+
+/* @theme เก็บ token กลางของ MooPing เพื่อให้ template ใช้ class เช่น bg-mooping-dark และ text-mooping-orange ได้ */
+@theme {
+  --color-mooping-bg: #050505;
+  --color-mooping-surface: #111111;
+  --color-mooping-card: #181614;
+  --color-mooping-border: rgba(255, 255, 255, 0.12);
+  --color-mooping-orange: #ff6b00;
+  --color-mooping-orange-light: #ffb27a;
+  --color-mooping-line: #22c55e;
+  --font-display: "Inter", "Noto Sans Thai", system-ui, sans-serif;
+  --font-body: "Inter", "Noto Sans Thai", system-ui, sans-serif;
+  --shadow-mooping-glow: 0 0 22px rgba(255, 107, 0, 0.28);
+}
+
 html {
   scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
+  background: #050505;
 }

@@ -1,42 +1,61 @@
 <aside
-  class="display-panel"
+  class="display-panel relative flex min-h-[430px] flex-col justify-center gap-3.5 overflow-hidden rounded-lg border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.075),rgba(255,255,255,0.035))] p-[clamp(20px,3vw,32px)] shadow-[0_24px_70px_rgba(0,0,0,0.36)]"
   [class.reward-ready]="customer().pendingRewards > 0"
   aria-label="Shop iPad display preview"
 >
-  <span class="display-label">iPad Display</span>
-  <div class="grill-stage" aria-hidden="true">
-    <div class="heat-lines">
-      <span></span>
-      <span></span>
-      <span></span>
+  <span class="w-max rounded-full border border-mooping-orange/40 bg-mooping-orange/15 px-3 py-1.5 text-xs font-black text-mooping-orange-light">
+    iPad Display
+  </span>
+
+  <!-- ภาพเตาย่างเป็น decorative animation เฉพาะ component นี้ เลยเก็บ keyframes ใน display-panel.css -->
+  <div
+    class="grill-stage relative grid min-h-28 items-center rounded-lg border border-mooping-orange/20 bg-[linear-gradient(90deg,rgba(255,107,0,0.08),transparent_22%,rgba(255,107,0,0.08)),linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] p-[18px]"
+    aria-hidden="true"
+  >
+    <div class="pointer-events-none absolute inset-x-[18px] top-3.5 flex justify-around">
+      <span class="h-[34px] w-0.5 animate-[heat-rise_1.5s_ease-in-out_infinite] rounded-full bg-[linear-gradient(180deg,rgba(255,107,0,0),rgba(255,107,0,0.78))]"></span>
+      <span class="h-[34px] w-0.5 animate-[heat-rise_1.5s_ease-in-out_infinite] rounded-full bg-[linear-gradient(180deg,rgba(255,107,0,0),rgba(255,107,0,0.78))] [animation-delay:220ms]"></span>
+      <span class="h-[34px] w-0.5 animate-[heat-rise_1.5s_ease-in-out_infinite] rounded-full bg-[linear-gradient(180deg,rgba(255,107,0,0),rgba(255,107,0,0.78))] [animation-delay:440ms]"></span>
     </div>
-    <div class="skewer skewer-one">
-      <span></span>
-      <span></span>
-      <span></span>
+    <div class="relative mx-auto grid w-max animate-[skewer-slide_4.8s_ease-in-out_infinite] grid-cols-[repeat(3,42px)] items-center gap-2.5 before:absolute before:left-[-28px] before:right-[-28px] before:h-[3px] before:rounded-full before:bg-[linear-gradient(90deg,#5c5148,#f6d3a8,#5c5148)]">
+      <span class="relative z-10 h-[30px] w-[42px] rounded-lg border border-mooping-orange-light/30 bg-[linear-gradient(135deg,rgba(255,178,122,0.92),rgba(178,64,18,0.92))] shadow-[0_0_22px_rgba(255,107,0,0.22)]"></span>
+      <span class="relative z-10 h-[30px] w-[42px] rounded-lg border border-mooping-orange-light/30 bg-[linear-gradient(135deg,rgba(255,178,122,0.92),rgba(178,64,18,0.92))] shadow-[0_0_22px_rgba(255,107,0,0.22)]"></span>
+      <span class="relative z-10 h-[30px] w-[42px] rounded-lg border border-mooping-orange-light/30 bg-[linear-gradient(135deg,rgba(255,178,122,0.92),rgba(178,64,18,0.92))] shadow-[0_0_22px_rgba(255,107,0,0.22)]"></span>
     </div>
-    <div class="skewer skewer-two">
-      <span></span>
-      <span></span>
-      <span></span>
+    <div class="relative mx-auto mt-3 grid w-max animate-[skewer-slide-alt_5.2s_ease-in-out_infinite] grid-cols-[repeat(3,42px)] items-center gap-2.5 opacity-80 [transform:translateX(-16px)_scale(0.92)] before:absolute before:left-[-28px] before:right-[-28px] before:h-[3px] before:rounded-full before:bg-[linear-gradient(90deg,#5c5148,#f6d3a8,#5c5148)]">
+      <span class="relative z-10 h-[30px] w-[42px] rounded-lg border border-mooping-orange-light/30 bg-[linear-gradient(135deg,rgba(255,178,122,0.92),rgba(178,64,18,0.92))] shadow-[0_0_22px_rgba(255,107,0,0.22)]"></span>
+      <span class="relative z-10 h-[30px] w-[42px] rounded-lg border border-mooping-orange-light/30 bg-[linear-gradient(135deg,rgba(255,178,122,0.92),rgba(178,64,18,0.92))] shadow-[0_0_22px_rgba(255,107,0,0.22)]"></span>
+      <span class="relative z-10 h-[30px] w-[42px] rounded-lg border border-mooping-orange-light/30 bg-[linear-gradient(135deg,rgba(255,178,122,0.92),rgba(178,64,18,0.92))] shadow-[0_0_22px_rgba(255,107,0,0.22)]"></span>
     </div>
   </div>
 
-  <strong>{{ customer().name }}</strong>
-  <p>{{ customer().sticks }} / 10 sticks</p>
-  <div class="progress-track" aria-hidden="true">
-    <span [style.width.%]="customer().sticks * 10"></span>
+  <strong class="relative text-[2rem] font-black leading-none text-slate-50 sm:text-[2.45rem] lg:text-[3.1rem]">
+    {{ customer().name }}
+  </strong>
+  <p class="text-xl font-black text-mooping-orange">{{ customer().sticks }} / 10 sticks</p>
+  <div class="overflow-hidden rounded-full border border-mooping-orange/25 bg-white/5" aria-hidden="true">
+    <span
+      class="block h-2.5 rounded-full bg-[linear-gradient(90deg,var(--orange),#ffb27a)] shadow-[0_0_18px_rgba(255,107,0,0.38)] transition-[width] duration-300"
+      [style.width.%]="customer().sticks * 10"
+    ></span>
   </div>
-  <div class="stamp-grid" aria-label="Loyalty stamp progress">
+  <div class="stamp-grid grid grid-cols-[repeat(5,minmax(34px,1fr))] gap-2.5 sm:grid-cols-[repeat(5,minmax(42px,1fr))]" aria-label="Loyalty stamp progress">
     @for (stamp of stamps(); track stamp) {
-      <span class="stamp" [class.filled]="stamp <= customer().sticks">
+      <span
+        class="grid min-h-14 place-items-center rounded-lg border border-dashed border-mooping-orange/40 bg-white/[0.04] font-black text-[#7d756e] data-[filled=true]:animate-[stamp-glow_1.7s_ease-in-out_infinite] data-[filled=true]:border-mooping-orange data-[filled=true]:bg-mooping-orange data-[filled=true]:text-[#160a03]"
+        [attr.data-filled]="stamp <= customer().sticks"
+      >
         {{ stamp }}
       </span>
     }
   </div>
-  <div class="display-reward-row">
-    <span>รอเลือก {{ customer().pendingRewards }}</span>
-    <span>เก็บไว้ {{ customer().savedRewards }}</span>
+  <div class="grid grid-cols-1 gap-2 sm:grid-cols-2">
+    <span class="rounded-lg border border-mooping-orange/20 bg-mooping-orange/10 p-2.5 text-center text-[0.84rem] font-black text-[#ffcfad]">
+      รอเลือก {{ customer().pendingRewards }}
+    </span>
+    <span class="rounded-lg border border-mooping-orange/20 bg-mooping-orange/10 p-2.5 text-center text-[0.84rem] font-black text-[#ffcfad]">
+      เก็บไว้ {{ customer().savedRewards }}
+    </span>
   </div>
-  <small>{{ progressMessage() }}</small>
+  <small class="text-[0.95rem] text-[#b9b3ad]">{{ progressMessage() }}</small>
 </aside>

@@ -7,13 +7,14 @@
 - ทำทีละ step และติ๊ก `[x]` เฉพาะเมื่อ build/test ผ่านหรือมีเหตุผลชัดเจนว่าเป็นงานเอกสารล้วน
 - ให้ UI และ business flow นิ่งก่อนเริ่ม backend จริง
 - ฝั่ง frontend ต้องเก็บ token หรือ secret ไม่ได้ โดยเฉพาะ LINE OA และ Supabase service role key
-- ใช้ Angular standalone components, signals/computed, strict TypeScript และ browser API แบบ SSR-safe
+- ใช้ Angular latest stable, Node 24 LTS, Tailwind CSS v4, standalone components, signals/computed, strict TypeScript และ browser API แบบ SSR-safe
 - เวลาเพิ่มหรือแก้โค้ด ให้ใส่ comment ภาษาไทยสั้น ๆ ในสไตล์เดียวกับ `ApoRaviz_Portfolio`: อธิบายว่า block นั้นใช้ทำอะไร ทำไมเลือก semantic element นั้น หรือเกี่ยวกับ flow ที่เราคุยกันไว้อย่างไร
 - ถ้าเปลี่ยน UI สำคัญ ต้องเปิดดูบน desktop และ mobile/tablet viewport ก่อนถือว่าเสร็จ
 
 ## Step 0 - Project Baseline
 
-- [x] 0.1 สร้าง Angular 21 project สำหรับ MooPing Loyalty
+- [x] 0.1 สร้าง Angular project รุ่นตั้งต้นสำหรับ MooPing Loyalty พร้อม routing และ SSR
+- [x] 0.1.1 Upgrade baseline ปัจจุบันเป็น Angular 22 + TypeScript 6.0.x + Tailwind CSS v4 ตาม `_docs`
 - [x] 0.2 เพิ่มเอกสารพื้นฐานใน `docs/`
 - [x] 0.3 เพิ่ม business requirements: ซื้อครบ 10 ไม้ได้ reward 1 สิทธิ์
 - [x] 0.4 เพิ่ม user flow สำหรับพนักงานและลูกค้า
@@ -32,16 +33,17 @@
 
 ## Step 1 - POS UI Ready For Real Use
 
-- [ ] 1.1 เปลี่ยนหน้าแรกจาก portfolio/demo hero เป็น POS workspace ที่ใช้งานได้ทันที
-- [ ] 1.2 จัด layout สำหรับ iPad landscape: customer column, sale keypad, stamp/reward column
-- [ ] 1.3 เพิ่ม customer search field แทนการใช้ select อย่างเดียว
-- [ ] 1.4 เพิ่ม customer profile card พร้อมชื่อ เบอร์ สถานะ LINE และยอดสะสม
-- [ ] 1.5 เพิ่ม keypad หรือ quick buttons ที่กดง่ายสำหรับหน้าร้าน
-- [ ] 1.6 แสดง checkout preview ก่อนยืนยัน: ยอดหลังบันทึก, reward ใหม่, ยอดคงเหลือ
-- [ ] 1.7 ทำปุ่มลบ 1 ไม้, ล้างรายการ, ยืนยัน, undo ให้มองเห็นชัดและไม่สับสน
+- [x] 1.0 ย้าย layout/style หลักของ POS workspace จาก `app.css` ไปเป็น Tailwind utility classes โดยคง CSS ไว้เฉพาะ global theme, animation หรือ visual effect ที่จำเป็น
+- [x] 1.1 เปลี่ยนหน้าแรกจาก portfolio/demo hero เป็น POS workspace ที่ใช้งานได้ทันที
+- [x] 1.2 จัด layout สำหรับ iPad landscape: customer column, sale keypad, stamp/reward column
+- [x] 1.3 เพิ่ม customer search field แทนการใช้ select อย่างเดียว
+- [x] 1.4 เพิ่ม customer profile card พร้อมชื่อ เบอร์ สถานะ LINE และยอดสะสม
+- [x] 1.5 เพิ่ม keypad หรือ quick buttons ที่กดง่ายสำหรับหน้าร้าน
+- [x] 1.6 แสดง checkout preview ก่อนยืนยัน: ยอดหลังบันทึก, reward ใหม่, ยอดคงเหลือ
+- [x] 1.7 ทำปุ่มลบ 1 ไม้, ล้างรายการ, ยืนยัน, undo ให้มองเห็นชัดและไม่สับสน
 - [ ] 1.8 เพิ่ม visual state สำหรับ reward ready, no customer selected, empty sale และ loading
 - [ ] 1.9 ตรวจ responsive บน mobile, desktop และ iPad-like viewport
-- [ ] 1.10 รัน build หลังปรับ UI รอบแรก
+- [x] 1.10 รัน build หลังปรับ UI รอบแรก
 
 ## Step 2 - Frontend State And Architecture
 

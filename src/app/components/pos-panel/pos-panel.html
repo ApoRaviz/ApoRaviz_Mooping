@@ -1,72 +1,153 @@
-<article class="panel pos-panel">
+<article class="flex flex-col gap-[18px] rounded-lg border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.075),rgba(255,255,255,0.035))] p-5 shadow-[0_24px_70px_rgba(0,0,0,0.36)]">
   <header>
-    <p class="eyebrow">POS Mode</p>
-    <h3>บันทึกยอดซื้อ</h3>
+    <p class="mb-2.5 text-xs font-black uppercase tracking-[0.1em] text-mooping-orange">POS Mode</p>
+    <h3 class="text-xl font-bold leading-tight text-slate-50">หน้าขายสำหรับพนักงาน</h3>
   </header>
 
-  <label for="customer">เลือกลูกค้า</label>
-  <select id="customer" [value]="selectedCustomerId()" (change)="selectCustomer($event)">
-    @for (customer of customers(); track customer.id) {
-      <option [value]="customer.id">{{ customer.name }} - {{ customer.phone }}</option>
-    }
-  </select>
+  <!-- ใช้ fieldset เพื่อรวมงานค้นหา/เลือกลูกค้าให้เป็นกลุ่ม input เดียวสำหรับพนักงานหน้าร้าน -->
+  <fieldset class="grid min-w-0 gap-[9px] border-0 p-0">
+    <legend class="mb-2.5 text-[0.98rem] font-black text-slate-50">ค้นหาและเลือกลูกค้า</legend>
+    <label class="text-sm font-extrabold text-[#b9b3ad]" for="customer-search">ชื่อหรือเบอร์โทร</label>
+    <input
+      class="min-h-[46px] w-full rounded-lg border border-white/10 bg-[#0b0b0b] px-3 text-slate-50 focus-visible:border-mooping-orange/60 focus-visible:outline-[3px] focus-visible:outline-mooping-orange/20"
+      id="customer-search"
+      type="search"
+      [value]="customerSearch()"
+      placeholder="พิมพ์ชื่อหรือเบอร์ เช่น 081"
+      autocomplete="off"
+      (input)="updateSearch($event)"
+    />
 
-  <div class="quick-actions" aria-label="Quick add sticks">
+    <label class="text-sm font-extrabold text-[#b9b3ad]" for="customer">รายการที่พบ</label>
+    <select
+      class="min-h-[46px] w-full rounded-lg border border-white/10 bg-[#0b0b0b] px-3 text-slate-50 focus-visible:border-mooping-orange/60 focus-visible:outline-[3px] focus-visible:outline-mooping-orange/20"
+      id="customer"
+      [value]="selectedCustomerId()"
+      (change)="selectCustomer($event)"
+    >
+      @for (customer of customers(); track customer.id) {
+        <option [value]="customer.id">{{ customer.name }} - {{ customer.phone }}</option>
+      }
+    </select>
+
+    @if (customers().length === 0) {
+      <p class="text-[#b9b3ad]">ไม่พบลูกค้าจากคำค้นนี้ รอบ backend จะเพิ่ม flow สร้างลูกค้าใหม่ครับ</p>
+    }
+  </fieldset>
+
+  <!-- Card นี้เป็นจุดยืนยันตัวตนก่อนขาย ลดความเสี่ยงบันทึกยอดผิดคน -->
+  <section
+    class="grid grid-cols-1 items-center gap-3 rounded-lg border border-mooping-line/25 bg-mooping-line/10 p-3.5 sm:grid-cols-[minmax(0,1fr)_max-content]"
+    aria-label="Selected customer profile"
+  >
+    <div>
+      <span class="block text-[0.82rem] font-extrabold text-[#b9b3ad]">ลูกค้าปัจจุบัน</span>
+      <strong class="my-1 block text-[1.35rem] font-black leading-[1.12] text-slate-50">{{ selectedCustomer().name }}</strong>
+      <small class="block text-[0.82rem] font-extrabold text-[#b9b3ad]">{{ selectedCustomer().phone }}</small>
+    </div>
+    <div class="inline-flex w-max items-center gap-2 rounded-full border border-mooping-line/30 px-2.5 py-2 text-[0.78rem] font-black text-[#b8f7cf]">
+      <span class="h-2 w-2 rounded-full bg-mooping-line"></span>
+      LINE mock พร้อมแจ้งเตือน
+    </div>
+  </section>
+
+  <div class="grid grid-cols-1 gap-2.5 sm:grid-cols-4" aria-label="Quick add sticks">
     @for (amount of quickAmounts(); track amount) {
-      <button type="button" (click)="pendingSticksAdded.emit(amount)">+{{ amount }} ไม้</button>
+      <button
+        class="min-h-16 rounded-lg bg-mooping-orange px-3.5 text-[1.08rem] font-black text-[#160a03] transition hover:bg-[#ff842a] focus-visible:bg-[#ff842a] focus-visible:outline-[3px] focus-visible:outline-mooping-orange/20 disabled:cursor-not-allowed disabled:opacity-45"
+        type="button"
+        (click)="pendingSticksAdded.emit(amount)"
+      >
+        +{{ amount }} ไม้
+      </button>
     }
   </div>
 
-  <div class="sale-ticket" [class.has-pending]="pendingSticks() > 0">
-    <div>
-      <span>รายการรอยืนยัน</span>
-      <strong>{{ pendingSticks() }} ไม้</strong>
+  <!-- Ticket นี้ยังไม่ commit ยอดจริงจนกว่าจะกดยืนยัน เพื่อกันพนักงานกดผิดระหว่างขาย -->
+  <div
+    class="grid gap-3 rounded-lg border border-white/10 bg-white/[0.045] p-3.5 data-[state=reward-ready]:border-mooping-line/50 data-[state=reward-ready]:bg-[linear-gradient(180deg,rgba(34,197,94,0.16),rgba(255,107,0,0.08))] data-[pending=true]:border-mooping-orange/40 data-[pending=true]:bg-[linear-gradient(180deg,rgba(255,107,0,0.13),rgba(255,255,255,0.045))] data-[pending=true]:shadow-[inset_0_0_24px_rgba(255,107,0,0.08)]"
+    [attr.data-pending]="pendingSticks() > 0"
+    [attr.data-state]="checkoutState()"
+  >
+    <div class="flex items-center justify-between gap-3">
+      <span class="text-[#b9b3ad]">รายการรอยืนยัน</span>
+      <strong class="text-[1.45rem] font-black text-mooping-orange-light">{{ pendingSticks() }} ไม้</strong>
     </div>
 
     @if (pendingSticks() > 0) {
-      <p>
-        หลังยืนยัน: สะสม {{ checkoutPreview().nextProgressLabel }},
-        reward ใหม่ {{ checkoutPreview().earnedRewards }} สิทธิ์
-      </p>
+      <div class="grid grid-cols-1 gap-2 sm:grid-cols-3" aria-label="Checkout preview before confirmation">
+        <div class="rounded-lg border border-mooping-orange/20 bg-white/[0.045] p-2.5">
+          <span class="block text-xs font-black text-[#b9b3ad]">หลังยืนยัน</span>
+          <strong class="mt-1 block text-xl font-black text-mooping-orange-light">{{ checkoutPreview().nextProgressLabel }}</strong>
+        </div>
+        <div class="rounded-lg border border-mooping-orange/20 bg-white/[0.045] p-2.5">
+          <span class="block text-xs font-black text-[#b9b3ad]">Reward ใหม่</span>
+          <strong class="mt-1 block text-xl font-black text-mooping-orange-light">{{ checkoutPreview().earnedRewards }}</strong>
+        </div>
+        <div class="rounded-lg border border-mooping-orange/20 bg-white/[0.045] p-2.5">
+          <span class="block text-xs font-black text-[#b9b3ad]">ยอดซื้อสะสมทั้งหมด</span>
+          <strong class="mt-1 block text-xl font-black text-mooping-orange-light">{{ checkoutPreview().nextTotalPurchased }}</strong>
+        </div>
+      </div>
     } @else {
-      <p>กดจำนวนไม้ก่อน ระบบจะยังไม่บันทึกจนกว่าจะกดยืนยัน</p>
+      <p class="leading-6 text-[#b9b3ad]">กดจำนวนไม้ก่อน ระบบจะยังไม่บันทึกจนกว่าจะกดยืนยัน</p>
     }
 
-    <div class="ticket-actions" aria-label="Sale correction actions">
-      <button type="button" class="ghost-button" [disabled]="pendingSticks() === 0" (click)="pendingStickRemoved.emit()">
+    <div class="grid grid-cols-1 gap-2.5 sm:grid-cols-2" aria-label="Sale correction actions">
+      <button
+        type="button"
+        class="min-h-11 rounded-lg border border-white/15 bg-white/5 px-3.5 font-black text-slate-50 transition hover:border-mooping-orange/50 hover:bg-mooping-orange/15 focus-visible:border-mooping-orange/50 focus-visible:bg-mooping-orange/15 focus-visible:outline-[3px] focus-visible:outline-mooping-orange/20 disabled:cursor-not-allowed disabled:opacity-45"
+        [disabled]="pendingSticks() === 0"
+        (click)="pendingStickRemoved.emit()"
+      >
         ลบ 1 ไม้
       </button>
-      <button type="button" class="ghost-button danger-button" [disabled]="pendingSticks() === 0" (click)="pendingSaleCleared.emit()">
+      <button
+        type="button"
+        class="min-h-11 rounded-lg border border-red-800/40 bg-white/5 px-3.5 font-black text-[#ffb4a8] transition hover:border-red-800/75 hover:bg-red-800/20 focus-visible:border-red-800/75 focus-visible:bg-red-800/20 focus-visible:outline-[3px] focus-visible:outline-red-800/25 disabled:cursor-not-allowed disabled:opacity-45"
+        [disabled]="pendingSticks() === 0"
+        (click)="pendingSaleCleared.emit()"
+      >
         ล้างรายการ
       </button>
     </div>
   </div>
 
-  <div class="confirm-row" aria-label="Confirm sale actions">
-    <button type="button" class="confirm-button" [disabled]="pendingSticks() === 0" (click)="pendingSaleConfirmed.emit()">
+  <div class="grid grid-cols-1 gap-2.5 sm:grid-cols-2" aria-label="Confirm sale actions">
+    <button
+      type="button"
+      class="min-h-11 rounded-lg bg-mooping-orange px-3.5 font-black text-[#160a03] shadow-mooping-glow transition hover:bg-[#ff842a] focus-visible:bg-[#ff842a] focus-visible:outline-[3px] focus-visible:outline-mooping-orange/20 disabled:cursor-not-allowed disabled:opacity-45"
+      [disabled]="pendingSticks() === 0"
+      (click)="pendingSaleConfirmed.emit()"
+    >
       ยืนยันบันทึกยอด
     </button>
-    <button type="button" class="undo-button" [disabled]="!lastSale()" (click)="lastSaleUndone.emit()">
+    <button
+      type="button"
+      class="min-h-11 rounded-lg border border-white/15 bg-white/5 px-3.5 font-black text-[#ffcfad] transition hover:border-mooping-orange/50 hover:bg-mooping-orange/15 focus-visible:border-mooping-orange/50 focus-visible:bg-mooping-orange/15 focus-visible:outline-[3px] focus-visible:outline-mooping-orange/20 disabled:cursor-not-allowed disabled:opacity-45"
+      [disabled]="!lastSale()"
+      (click)="lastSaleUndone.emit()"
+    >
       ยกเลิกรายการล่าสุด
     </button>
   </div>
 
-  <div class="summary">
-    <div>
-      <span>ยอดสะสม</span>
-      <strong>{{ selectedCustomer().sticks }}/10</strong>
+  <div class="grid gap-2.5">
+    <div class="flex items-center justify-between rounded-lg border border-mooping-orange/20 bg-mooping-orange/10 p-3.5">
+      <span class="text-[#b9b3ad]">ยอดสะสม</span>
+      <strong class="text-[1.35rem] font-black text-mooping-orange-light">{{ selectedCustomer().sticks }}/10</strong>
     </div>
-    <div>
-      <span>Reward รอเลือก</span>
-      <strong>{{ selectedCustomer().pendingRewards }}</strong>
+    <div class="flex items-center justify-between rounded-lg border border-mooping-orange/20 bg-mooping-orange/10 p-3.5">
+      <span class="text-[#b9b3ad]">Reward รอเลือก</span>
+      <strong class="text-[1.35rem] font-black text-mooping-orange-light">{{ selectedCustomer().pendingRewards }}</strong>
     </div>
-    <div>
-      <span>สิทธิ์ที่เก็บไว้</span>
-      <strong>{{ selectedCustomer().savedRewards }}</strong>
+    <div class="flex items-center justify-between rounded-lg border border-mooping-orange/20 bg-mooping-orange/10 p-3.5">
+      <span class="text-[#b9b3ad]">สิทธิ์ที่เก็บไว้</span>
+      <strong class="text-[1.35rem] font-black text-mooping-orange-light">{{ selectedCustomer().savedRewards }}</strong>
     </div>
-    <div>
-      <span>ซื้อทั้งหมด</span>
-      <strong>{{ selectedCustomer().totalPurchased }}</strong>
+    <div class="flex items-center justify-between rounded-lg border border-mooping-orange/20 bg-mooping-orange/10 p-3.5">
+      <span class="text-[#b9b3ad]">ซื้อทั้งหมด</span>
+      <strong class="text-[1.35rem] font-black text-mooping-orange-light">{{ selectedCustomer().totalPurchased }}</strong>
     </div>
   </div>
 </article>

@@ -2,7 +2,8 @@
 
 ## Phase 1: Project Foundation
 
-- [x] Create Angular 21 project with SSR and routing
+- [x] Create initial Angular project with SSR and routing
+- [x] Upgrade current frontend baseline to Angular 22, TypeScript 6.0.x, and Tailwind CSS v4
 - [x] Define project documentation structure
 - [x] Build first interactive loyalty demo
 - [x] Verify production build
@@ -22,8 +23,9 @@
 
 ## Phase 2: MVP Improvements
 
-- [ ] Redesign first screen into real POS workspace
+- [x] Redesign first screen into real POS workspace
 - [x] Split POS, reward, display, and LINE panels into standalone components
+- [x] Migrate existing POS workspace layout from legacy component CSS to Tailwind-first templates
 - [ ] Add localStorage persistence
 - [ ] Add purchase and reward claim history
 - [ ] Add real iPad display route

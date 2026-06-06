@@ -27,7 +27,7 @@ export class App {
     { id: 'c', name: 'คุณ C', phone: '083-333-3333', sticks: 2, pendingRewards: 1, savedRewards: 2, totalPurchased: 32 },
   ]);
   protected readonly selectedCustomerId = signal('a');
-  protected readonly displayPulseKey = signal(0);
+  protected readonly customerSearch = signal('');
   protected readonly pendingSticks = signal(0);
   protected readonly lastSale = signal<LastSale | null>(null);
   protected readonly lineMessages = signal<LineMessage[]>([
@@ -40,6 +40,19 @@ export class App {
 
   protected readonly selectedCustomer = computed(() => {
     return this.customers().find((customer) => customer.id === this.selectedCustomerId()) ?? this.customers()[0];
+  });
+
+  // ใช้สำหรับค้นหาลูกค้าหน้าร้านจากชื่อหรือเบอร์ โดยยังเก็บ source data จริงไว้ที่ customers()
+  protected readonly filteredCustomers = computed(() => {
+    const keyword = this.customerSearch().trim().toLowerCase();
+
+    if (!keyword) {
+      return this.customers();
+    }
+
+    return this.customers().filter((customer) => {
+      return customer.name.toLowerCase().includes(keyword) || customer.phone.includes(keyword);
+    });
   });
 
   protected readonly stamps = computed(() => Array.from({ length: 10 }, (_, index) => index + 1));
@@ -58,6 +71,17 @@ export class App {
     };
   });
 
+  protected readonly checkoutState = computed(() => {
+    const pending = this.pendingSticks();
+    const preview = this.checkoutPreview();
+
+    if (pending <= 0) {
+      return 'empty';
+    }
+
+    return preview.earnedRewards > 0 ? 'reward-ready' : 'pending-sale';
+  });
+
   protected readonly progressMessage = computed(() => {
     const customer = this.selectedCustomer();
 
@@ -72,7 +96,10 @@ export class App {
   protected selectCustomer(customerId: string): void {
     this.selectedCustomerId.set(customerId);
     this.pendingSticks.set(0);
-    this.displayPulseKey.update((value) => value + 1);
+  }
+
+  protected updateCustomerSearch(keyword: string): void {
+    this.customerSearch.set(keyword);
   }
 
   protected addPendingSticks(amount: number): void {
@@ -120,7 +147,6 @@ export class App {
         ? `${customerBefore.name} ซื้อเพิ่ม ${amount} ไม้ ครบ 10 แล้ว เลือกของแถมได้ ${earnedRewards} สิทธิ์`
         : `${customerBefore.name} ซื้อเพิ่ม ${amount} ไม้ ${10 - remainingSticks} ไม้จะครบ reward แล้ว`,
     );
-    this.displayPulseKey.update((value) => value + 1);
   }
 
   protected undoLastSale(): void {
@@ -137,7 +163,6 @@ export class App {
     this.lastSale.set(null);
     this.pendingSticks.set(0);
     this.pushLineMessage(`${sale.customerBefore.name} ยกเลิกรายการล่าสุด ${sale.sticksAdded} ไม้ และคืนยอดเดิมแล้ว`);
-    this.displayPulseKey.update((value) => value + 1);
   }
 
   protected claimReward(reward: RewardOption): void {
@@ -178,7 +203,6 @@ export class App {
         ? `${customer.name} เก็บ reward ไว้ใช้ครั้งหน้า ตอนนี้มีสิทธิ์ที่เก็บไว้ ${customer.savedRewards + 1} สิทธิ์`
         : `${customer.name} เลือกของแถมเป็น ${reward.name} เรียบร้อยแล้ว`,
     );
-    this.displayPulseKey.update((value) => value + 1);
   }
 
   private pushLineMessage(text: string): void {

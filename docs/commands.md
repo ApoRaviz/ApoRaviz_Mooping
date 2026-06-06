@@ -28,6 +28,8 @@ npm install
 
 ใช้ติดตั้ง dependencies จาก `package.json`
 
+โปรเจกต์นี้ใช้ Angular 22 + Tailwind CSS v4 ตามกติกากลางใน `_docs/angular/commands.md`
+
 ## Dev Server
 
 ```bash

@@ -41,11 +41,26 @@ LINE OA mock
 1. ทำ feature ให้ flow ถูกก่อน
 2. ตั้งชื่อ model/type ให้ชัด
 3. แยก presentation components
-4. ค่อยพิจารณา service เมื่อมี data source จริง
-5. เพิ่ม tests กัน regression
+4. ย้าย layout/style ทั่วไปไปใช้ Tailwind utility classes
+5. เก็บ CSS เฉพาะ animation หรือ visual effect ที่จำเป็นจริง
+6. ค่อยพิจารณา service เมื่อมี data source จริง
+7. เพิ่ม tests กัน regression
 ```
 
 ถ้าแยก service เร็วเกินไป อาจได้ abstraction ที่ไม่ตรงกับปัญหาจริง
+
+## ทำไมไม่ควรปล่อย app.css ใหญ่เกินไป
+
+ตอน prototype เราอาจรวม style ไว้ที่ `app.css` เพื่อเห็นภาพเร็ว
+
+แต่เมื่อโปรเจกต์มี `pos-panel`, `display-panel`, `reward-panel` และ `line-panel` แล้ว style ควรมี owner ชัดขึ้น:
+
+- layout และ spacing ทั่วไป ใช้ Tailwind ใน template
+- theme token ใช้ `src/styles.css` ผ่าน `@theme`
+- animation เฉพาะจอ เช่น grill/stamp pulse อยู่ใน component CSS ได้
+- `app.css` เหลือไว้เป็น host token และ selector กลางที่จำเป็นกับ Angular component เท่านั้น
+
+แนวนี้ทำให้คนอ่านรู้ว่า HTML บอกโครงหน้าจอ, TypeScript บอก state/logic และ CSS ที่เหลือมีเหตุผลเฉพาะจริง ๆ
 
 ## ทำไม TypeScript Models สำคัญ
 

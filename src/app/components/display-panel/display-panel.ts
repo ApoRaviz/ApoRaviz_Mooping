@@ -4,6 +4,7 @@ import { Customer } from '../../models/loyalty.models';
 @Component({
   selector: 'app-display-panel',
   templateUrl: './display-panel.html',
+  styleUrl: './display-panel.css',
 })
 export class DisplayPanelComponent {
   readonly customer = input.required<Customer>();

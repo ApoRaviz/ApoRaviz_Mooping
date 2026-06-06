@@ -54,6 +54,39 @@ line-panel = mock LINE OA messages
 - `reward-panel` ไม่ต้องรู้ว่า LINE OA ส่งข้อความอย่างไร
 - `display-panel` ไม่ต้องแก้ยอดลูกค้าเอง
 
+## Tailwind กับ CSS แยกกันอย่างไร
+
+หลังปรับ baseline ปี 2026 โปรเจกต์นี้ใช้ Tailwind CSS v4 เป็น styling default เหมือน `ApoRaviz_Portfolio`
+
+หลักการคือ:
+
+```text
+Tailwind class ใน template = layout, spacing, color, responsive, state ส่วนใหญ่
+src/styles.css             = import Tailwind, theme token และ global base
+component .css             = animation/keyframes หรือ visual effect ที่ Tailwind อ่านยาก
+```
+
+ตอนนี้ POS workspace ย้าย layout หลักไปเป็น utility class ใน HTML แล้ว เพื่อให้อ่าน flow ได้จาก template โดยตรง
+
+ไฟล์ที่ควรดูเป็นตัวอย่าง:
+
+```text
+src/app/app.html
+src/app/components/pos-panel/pos-panel.html
+src/app/components/reward-panel/reward-panel.html
+src/app/components/line-panel/line-panel.html
+```
+
+แต่ iPad grill animation ยังเก็บใน `display-panel.css` ได้ เพราะมี `@keyframes`, pseudo state และ visual detail เฉพาะ component
+
+ดังนั้น `app.css` ควรเหลือแค่ host token หรือ selector ที่ Angular component ต้องใช้จริง ๆ ไม่ใช่ที่เก็บ layout ทั้งหน้า
+
+ถ้าต้องเรียน concept กลาง ให้อ่าน:
+
+```text
+_docs/angular/teach/08-tailwind-css-v4.md
+```
+
 ## input() ใช้ทำอะไร
 
 ใน Angular รุ่นใหม่ component ลูกรับข้อมูลผ่าน `input()`

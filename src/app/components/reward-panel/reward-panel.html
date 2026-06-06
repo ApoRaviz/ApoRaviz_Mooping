@@ -1,37 +1,38 @@
-<article id="reward" class="panel reward-panel">
+<article id="reward" class="flex flex-col gap-[18px] rounded-lg border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.075),rgba(255,255,255,0.035))] p-5 shadow-[0_24px_70px_rgba(0,0,0,0.36)]">
   <header>
-    <p class="eyebrow">Customer Choice</p>
-    <h3>ลูกค้าเลือกของแถมเอง</h3>
+    <p class="mb-2.5 text-xs font-black uppercase tracking-[0.1em] text-mooping-orange">Customer Choice</p>
+    <h3 class="text-xl font-bold leading-tight text-slate-50">ลูกค้าเลือกของแถมเอง</h3>
   </header>
 
-  <div class="reward-ledger">
-    <div>
-      <span>พร้อมเลือกตอนนี้</span>
-      <strong>{{ customer().pendingRewards }}</strong>
+  <div class="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+    <div class="rounded-lg border border-mooping-orange/20 bg-mooping-orange/10 p-3.5">
+      <span class="block text-[0.84rem] font-extrabold text-[#b9b3ad]">พร้อมเลือกตอนนี้</span>
+      <strong class="mt-2 block text-[2rem] font-black leading-none text-mooping-orange-light">{{ customer().pendingRewards }}</strong>
     </div>
-    <div>
-      <span>สิทธิ์ที่เก็บไว้</span>
-      <strong>{{ customer().savedRewards }}</strong>
+    <div class="rounded-lg border border-mooping-orange/20 bg-mooping-orange/10 p-3.5">
+      <span class="block text-[0.84rem] font-extrabold text-[#b9b3ad]">สิทธิ์ที่เก็บไว้</span>
+      <strong class="mt-2 block text-[2rem] font-black leading-none text-mooping-orange-light">{{ customer().savedRewards }}</strong>
     </div>
   </div>
 
   @if (customer().pendingRewards + customer().savedRewards > 0) {
-    <p class="hint">
+    <p class="text-[#b9b3ad]">
       เลือกของแถมจากสิทธิ์ที่มีอยู่ได้เลย ถ้ายังไม่รับตอนนี้ให้กดเก็บสิทธิ์ไว้ก่อน
     </p>
-    <div class="reward-options">
+    <div class="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
       @for (reward of rewards(); track reward.id) {
         <button
+          class="flex min-h-[66px] items-center justify-center gap-2 rounded-lg border border-mooping-orange/25 bg-[#211914] px-3.5 font-black text-slate-50 transition hover:bg-mooping-orange hover:text-[#160a03] focus-visible:bg-mooping-orange focus-visible:text-[#160a03] focus-visible:outline-[3px] focus-visible:outline-mooping-orange/20 disabled:cursor-not-allowed disabled:opacity-45"
           type="button"
           [disabled]="reward.id === 'save-later' && customer().pendingRewards === 0"
           (click)="rewardSelected.emit(reward)"
         >
-          <span>{{ reward.icon }}</span>
+          <span class="grid h-7 w-7 place-items-center rounded-full bg-white/10">{{ reward.icon }}</span>
           {{ reward.name }}
         </button>
       }
     </div>
   } @else {
-    <p class="empty-state">ยังไม่มี reward ที่รอเลือก เพิ่มยอดซื้อให้ครบ 10 ไม้ก่อนครับ</p>
+    <p class="text-[#b9b3ad]">ยังไม่มี reward ที่รอเลือก เพิ่มยอดซื้อให้ครบ 10 ไม้ก่อนครับ</p>
   }
 </article>

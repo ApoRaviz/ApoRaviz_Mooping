@@ -1,9 +1,12 @@
-<article class="panel line-panel">
-  <div class="phone" aria-label="Mock LINE OA messages">
+<article class="flex flex-col gap-[18px] rounded-lg border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.075),rgba(255,255,255,0.035))] p-5 shadow-[0_24px_70px_rgba(0,0,0,0.36)]">
+  <div
+    class="flex min-h-[280px] flex-col gap-2.5 rounded-lg border border-mooping-line/20 bg-[linear-gradient(180deg,rgba(34,197,94,0.14),rgba(255,255,255,0.04))] p-3.5"
+    aria-label="Mock LINE OA messages"
+  >
     @for (message of messages(); track message.id) {
-      <div class="bubble">
-        <span>{{ message.time }}</span>
-        <p>{{ message.text }}</p>
+      <div class="max-w-[92%] self-start rounded-lg border border-white/10 bg-slate-50 px-3 py-2.5 shadow-[0_14px_28px_rgba(0,0,0,0.22)]">
+        <span class="text-[0.72rem] font-black text-[#16803d]">{{ message.time }}</span>
+        <p class="mt-1 leading-6 text-[#142116]">{{ message.text }}</p>
       </div>
     }
   </div>
