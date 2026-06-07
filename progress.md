@@ -31,12 +31,12 @@
 - [ ] Add real iPad display route
 - [ ] Prepare portfolio case study page content
 - [x] Add teach notes for POS correction, saved rewards, component refactor, and CI/CD
-- [x] Rewrite teach notes into reusable learning docs aligned with ApoRaviz Portfolio style
+- [x] Move MooPing teach notes into `ApoRaviz_Workspace_Docs/projects/mooping/`
 - [x] Add command docs for test, git, and CI/CD
 - [x] Feed MooPing learning rules back into the workspace `NEW_PROJECT_GUIDE.md`
 - [x] Link MooPing demo and GitHub repo as Quest 1 in ApoRaviz Portfolio
-- [x] Link MooPing teach and commands back to central `_docs/angular/` and `_docs/git/`
-- [x] Clarify that MooPing teach keeps POS, loyalty, LINE OA, and state modeling examples while common Angular concepts live in `_docs/angular/`
+- [x] Link MooPing commands back to central workspace docs
+- [x] Clarify that MooPing app repo keeps product docs while learning case study lives in `ApoRaviz_Workspace_Docs/projects/mooping/`
 - [x] Refocus deploy teach note into MooPing-specific demo deploy flow
 - [x] Rewrite README to explain POS, loyalty, iPad display, mock LINE OA, and current MVP features
 - [x] Rename MooPing teach files ให้ชื่อสื่อ domain/project-specific มากขึ้น

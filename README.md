@@ -10,6 +10,8 @@
 
 ระบบนี้ช่วยให้พนักงานหน้าร้านบันทึกยอดขายเร็วขึ้น ลูกค้าเห็นยอดสะสมชัดขึ้น และเจ้าของร้านเห็นแนวทางต่อยอดไปสู่ LINE OA / backend จริง
 
+ตอนนี้โปรเจกต์นี้หยุดไว้ก่อนตามแผน workspace ใหม่ ถ้าจะเรียนจากบทเรียนของ MooPing ให้อ่านที่ `ApoRaviz_Workspace_Docs/projects/mooping/`
+
 ## What This Project Does
 
 - เลือกลูกค้าและบันทึกยอดซื้อผ่าน POS demo
@@ -17,7 +19,6 @@
 - รองรับ pending rewards และ saved rewards เพื่อไม่ให้สิทธิ์ลูกค้าหาย
 - มี iPad-style display panel สำหรับโชว์สถานะให้ลูกค้าดูหน้าร้าน
 - มี mock LINE OA message panel เพื่อสื่อทิศทาง notification ใน production
-- มี teach notes เฉพาะระบบหมูปิ้ง เช่น POS flow, loyalty logic, LINE OA และ state modeling
 
 ## Current MVP Features
 
@@ -65,14 +66,12 @@ npm run build:gh-pages
 - [Product Spec](docs/product-spec.md)
 - [Commands](docs/commands.md)
 - [Implementation Plan](docs/implementation-plan.md)
-- [Teach Notes](docs/teach/README.md)
 - [Progress](progress.md)
 
 ## Learning Boundary
 
 ```text
-ApoRaviz_Mooping/docs/teach/ = บทเรียนเฉพาะระบบหมูปิ้ง
-_docs/angular/teach/         = Angular concept กลาง
-_docs/angular/commands.md    = Angular command กลาง
-_docs/git/commands.md        = Git command กลาง
+ApoRaviz_Mooping/docs/                  = app-specific spec, plan, commands
+ApoRaviz_Workspace_Docs/projects/mooping/ = MooPing learning case study
+ApoRaviz_Workspace_Docs/angular/          = Angular/Tailwind concept กลาง
 ```

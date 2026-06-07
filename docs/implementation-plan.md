@@ -10,11 +10,12 @@
 - ใช้ Angular latest stable, Node 24 LTS, Tailwind CSS v4, standalone components, signals/computed, strict TypeScript และ browser API แบบ SSR-safe
 - เวลาเพิ่มหรือแก้โค้ด ให้ใส่ comment ภาษาไทยสั้น ๆ ในสไตล์เดียวกับ `ApoRaviz_Portfolio`: อธิบายว่า block นั้นใช้ทำอะไร ทำไมเลือก semantic element นั้น หรือเกี่ยวกับ flow ที่เราคุยกันไว้อย่างไร
 - ถ้าเปลี่ยน UI สำคัญ ต้องเปิดดูบน desktop และ mobile/tablet viewport ก่อนถือว่าเสร็จ
+- ถ้าเจอบทเรียนใหม่จาก MooPing ให้เพิ่มที่ `ApoRaviz_Workspace_Docs/projects/mooping/` ไม่สร้าง `docs/teach/` ใหม่ใน repo นี้
 
 ## Step 0 - Project Baseline
 
 - [x] 0.1 สร้าง Angular project รุ่นตั้งต้นสำหรับ MooPing Loyalty พร้อม routing และ SSR
-- [x] 0.1.1 Upgrade baseline ปัจจุบันเป็น Angular 22 + TypeScript 6.0.x + Tailwind CSS v4 ตาม `_docs`
+- [x] 0.1.1 Upgrade baseline ปัจจุบันเป็น Angular 22 + TypeScript 6.0.x + Tailwind CSS v4 ตาม `ApoRaviz_Workspace_Docs`
 - [x] 0.2 เพิ่มเอกสารพื้นฐานใน `docs/`
 - [x] 0.3 เพิ่ม business requirements: ซื้อครบ 10 ไม้ได้ reward 1 สิทธิ์
 - [x] 0.4 เพิ่ม user flow สำหรับพนักงานและลูกค้า
@@ -25,8 +26,8 @@
 - [x] 0.9 รวม command docs ที่สั้นเกินไปเป็น `docs/commands.md`
 - [x] 0.10 รวม overview, requirements, user flow, data model และ LINE OA plan เป็น `docs/product-spec.md`
 - [x] 0.11 ลบ generic UI skill copy ที่ซ้ำกับกติกากลาง เหลือ project-specific skill ของ MooPing
-- [x] 0.12 เชื่อม `docs/teach/README.md` กลับไป `_docs/angular/teach/` เพื่อแยก common Angular concept ออกจากบทเรียนเฉพาะระบบหมูปิ้ง
-- [x] 0.13 เชื่อม `docs/commands.md` กลับไป `_docs/angular/commands.md` และ `_docs/git/commands.md`
+- [x] 0.12 ย้าย MooPing teach notes ไป `ApoRaviz_Workspace_Docs/projects/mooping/`
+- [x] 0.13 เชื่อม `docs/commands.md` กลับไป workspace docs กลาง
 - [x] 0.14 ปรับ deploy teach ให้เป็น MooPing-specific demo deploy flow ไม่ใช่ CI/CD กลางซ้ำ
 - [x] 0.15 ปรับ README ให้สื่อ project purpose และ MVP features ชัดเจน
 - [x] 0.16 rename teach files ให้ชื่อสื่อบทเรียนเฉพาะระบบหมูปิ้งชัดเจน
@@ -124,4 +125,4 @@
 - [ ] 9.2 เพิ่ม screenshots ของ POS, reward flow และ LINE mock/real flow
 - [ ] 9.3 เพิ่ม architecture diagram แบบอ่านง่าย
 - [ ] 9.4 เพิ่ม link demo และ GitHub repo ใน ApoRaviz Portfolio
-- [ ] 9.5 เขียน lessons learned เป็นภาษาไทยสำหรับ learning docs
+- [ ] 9.5 เขียน lessons learned เป็นภาษาไทยที่ `ApoRaviz_Workspace_Docs/projects/mooping/`
