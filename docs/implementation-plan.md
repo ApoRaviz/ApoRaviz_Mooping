@@ -88,7 +88,7 @@
 
 ## Step 6 - Backend And Database
 
-- [ ] 6.1 สร้าง backend workspace ด้วย Node.js + Fastify + TypeScript
+- [ ] 6.1 ตัดสินใจ backend framework: ค่า default คือ NestJS + Node.js 24 + PostgreSQL/Supabase; ใช้ Fastify ได้ถ้าตั้งใจทำ API/webhook prototype ที่เล็กและจดเหตุผลไว้
 - [ ] 6.2 เพิ่ม Supabase migration สำหรับ customers, transactions, rewards
 - [ ] 6.3 เพิ่ม database function หรือ service สำหรับ process transaction
 - [ ] 6.4 เพิ่ม customer routes: search, get by id, create, update
