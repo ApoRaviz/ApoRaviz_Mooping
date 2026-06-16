@@ -34,7 +34,7 @@ export class App {
     {
       id: 1,
       time: 'Demo',
-      text: 'ยินดีต้อนรับสู่ MooPing Loyalty ซื้อครบ 10 ไม้ เลือกของแถมเองได้เลย',
+      text: 'ยินดีต้อนรับสู่ MooPing Reward ซื้อครบ 10 ไม้ เลือกของแถมเองได้เลย',
     },
   ]);
 

@@ -1,6 +1,6 @@
-# MooPing Loyalty Implementation Plan
+# MooPing Reward Implementation Plan
 
-ไฟล์นี้เป็นแผนกลางสำหรับไล่งานทีละ step ของโปรเจกต์ MooPing Loyalty ให้เราใช้ติดตามร่วมกันระหว่างออกแบบ UI, จัดโครงสร้าง Angular, ทำ LINE OA และต่อ backend จริง
+ไฟล์นี้เป็นแผนกลางสำหรับไล่งานทีละ step ของโปรเจกต์ MooPing Reward ให้เราใช้ติดตามร่วมกันระหว่างออกแบบ UI, จัดโครงสร้าง Angular, ทำ LINE OA และต่อ backend จริง
 
 ## Working Rules
 
@@ -14,7 +14,7 @@
 
 ## Step 0 - Project Baseline
 
-- [x] 0.1 สร้าง Angular project รุ่นตั้งต้นสำหรับ MooPing Loyalty พร้อม routing และ SSR
+- [x] 0.1 สร้าง Angular project รุ่นตั้งต้นสำหรับ MooPing Reward พร้อม routing และ SSR
 - [x] 0.1.1 Upgrade baseline ปัจจุบันเป็น Angular 22 + TypeScript 6.0.x + Tailwind CSS v4 ตาม `ApoRaviz_Workspace_Docs`
 - [x] 0.2 เพิ่มเอกสารพื้นฐานใน `docs/`
 - [x] 0.3 เพิ่ม business requirements: ซื้อครบ 10 ไม้ได้ reward 1 สิทธิ์

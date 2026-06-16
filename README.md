@@ -1,4 +1,4 @@
-# ApoRaviz Mooping
+# ApoRaviz MooPing Reward
 
 `ApoRaviz_Mooping` คือ web app demo สำหรับระบบขายและสะสมสิทธิ์ร้านหมูปิ้ง
 
