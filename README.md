@@ -1,35 +1,49 @@
 # ApoRaviz MooPing Reward
 
-`ApoRaviz_Mooping` คือ web app demo สำหรับระบบขายและสะสมสิทธิ์ร้านหมูปิ้ง
+`ApoRaviz_Mooping` คือโปรเจ็ค Web Application สำหรับระบบสะสมสิทธิ์ร้านหมูปิ้งหน้าร้านจริง
 
-โจทย์หลักคือร้านมีโปรโมชัน:
+Product display name:
 
 ```text
-ซื้อครบ 10 ไม้ รับ reward 1 สิทธิ์
+MooPing Reward
 ```
 
-ระบบนี้ช่วยให้พนักงานหน้าร้านบันทึกยอดขายเร็วขึ้น ลูกค้าเห็นยอดสะสมชัดขึ้น และเจ้าของร้านเห็นแนวทางต่อยอดไปสู่ LINE OA / backend จริง
+แนวคิดหลัก:
 
-ตอนนี้โปรเจกต์นี้หยุดไว้ก่อนตามแผน workspace ใหม่ ถ้าจะเรียนจากบทเรียนของ MooPing ให้อ่านที่ `ApoRaviz_Workspace_Docs/projects/mooping/`
+```text
+ซื้อครบ 10 เลือกของแถมได้
+แอด LINE แล้วร้านช่วยจำยอดสะสมให้ ไม่ต้องพกบัตร
+```
 
-## What This Project Does
+ระบบนี้ไม่ได้ตั้งใจเป็น online ordering, cart, payment หรือ app ที่บังคับลูกค้าทุกคนต้องสมัครก่อนซื้อ
 
-- เลือกลูกค้าและบันทึกยอดซื้อผ่าน POS demo
-- ใช้ loyalty rule: ครบทุก 10 ไม้ ได้ reward 1 สิทธิ์
-- รองรับ pending rewards และ saved rewards เพื่อไม่ให้สิทธิ์ลูกค้าหาย
-- มี iPad-style display panel สำหรับโชว์สถานะให้ลูกค้าดูหน้าร้าน
-- มี mock LINE OA message panel เพื่อสื่อทิศทาง notification ใน production
+เป้าหมายคือช่วยร้านหมูปิ้งช่วงเช้าที่ลูกค้าส่วนใหญ่รีบไปทำงานหรือพาลูกไปโรงเรียน โดยให้การขายยังเร็วเหมือนเดิม และให้ LINE OA เป็นตัวช่วยสำหรับลูกค้าที่อยากสะสมข้ามรอบ
 
-## Current MVP Features
+## Product Rule
 
-- Quick sale buttons
-- Confirm before commit
-- Clear draft
-- Undo latest sale
-- Reward choice
-- Save reward for later
-- Mock LINE OA messages
-- GitHub Pages deploy workflow
+```text
+Fast sale first, reward optional, LINE only when useful.
+```
+
+แปลเป็น flow หน้าร้าน:
+
+- ลูกค้าซื้อปกติได้ทันที
+- ซื้อครบ 10 ไม้ในครั้งเดียว ได้ของแถมทันทีโดยไม่ต้องแอด LINE
+- ลูกค้าที่ซื้อประจำสามารถแอด LINE เพื่อให้ร้านช่วยจำยอดสะสม
+- Reward เลือกได้จาก หมูปิ้ง, น้ำเปล่า, ข้าวเหนียว
+- LINE OA ใช้แจ้งเตือนยอดสะสม ไม่ใช่บังคับให้ซื้อออนไลน์
+
+## Current State
+
+โปรเจ็คตอนนี้มี Angular frontend prototype เดิมที่เคยใช้ทดลอง POS/reward/LINE mock flow
+
+ทิศทางใหม่คือจะค่อย ๆ ปรับจาก demo ไปเป็นระบบหน้าร้านจริง:
+
+- หน้า default ต้องเป็น quick sale สำหรับ iPad
+- Mock visual ที่ไม่ช่วย flow หน้าร้านสามารถเอาออกได้
+- Logic ต้องย้ายออกจาก `App` ไป service/store
+- LINE integration จริงต้องผ่าน backend เท่านั้น
+- Backend ระยะยาวใช้ NestJS + PostgreSQL/Supabase
 
 ## Tech Stack
 
@@ -40,6 +54,12 @@
 - Standalone components
 - Angular signals/computed state
 - SSR-ready Angular scaffold
+
+Planned production stack:
+
+- NestJS backend
+- PostgreSQL หรือ Supabase
+- LINE Messaging API ผ่าน backend
 
 ## Development
 
@@ -64,14 +84,18 @@ npm run build:gh-pages
 ## Documentation
 
 - [Product Spec](docs/product-spec.md)
-- [Commands](docs/commands.md)
 - [Implementation Plan](docs/implementation-plan.md)
+- [Commands](docs/commands.md)
 - [Progress](progress.md)
 
 ## Learning Boundary
 
 ```text
-ApoRaviz_Mooping/docs/                  = app-specific spec, plan, commands
-ApoRaviz_Workspace_Docs/projects/mooping/ = MooPing learning case study
-ApoRaviz_Workspace_Docs/angular/          = Angular/Tailwind concept กลาง
+ApoRaviz_Mooping/docs/                    = product spec, plan, commands ของ app นี้
+ApoRaviz_Workspace_Docs/projects/mooping/ = case study และบทเรียนจากระบบหมูปิ้ง
+ApoRaviz_Workspace_Docs/backend/          = LINE OA, webhook, backend security
+ApoRaviz_Workspace_Docs/nestjs/           = NestJS concept กลาง
+ApoRaviz_Workspace_Docs/postgresql/       = PostgreSQL/Supabase concept กลาง
 ```
+
+โปรเจ็คนี้จะไม่มีโหมดเรียนแยกใน repo ตัวเอง ถ้าเจอบทเรียนที่ใช้ซ้ำได้ให้บันทึกกลับไป `ApoRaviz_Workspace_Docs`

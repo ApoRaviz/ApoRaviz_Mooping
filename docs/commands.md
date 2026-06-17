@@ -1,24 +1,17 @@
 # Commands
 
-เอกสารนี้รวมคำสั่งของโปรเจกต์ `ApoRaviz_Mooping` ไว้ไฟล์เดียว เพราะตอนนี้คำสั่งยังสั้นและผูกกับ repo นี้โดยตรง
+ไฟล์นี้รวมคำสั่งเฉพาะของ `ApoRaviz_Mooping`
 
-Command pattern กลางของ Angular และ Git อยู่ที่ `ApoRaviz_Workspace_Docs`
+ตอนนี้คำสั่งในไฟล์นี้ยังเป็นคำสั่งสำหรับ Angular frontend prototype ปัจจุบัน
 
-```text
-ApoRaviz_Workspace_Docs/angular/commands.md
-ApoRaviz_Workspace_Docs/git/commands.md
-```
-
-ไฟล์นี้เก็บรายละเอียดเฉพาะ MooPing เช่น repo URL, base-href, output path และ test coverage ของโปรเจกต์นี้
-
-Command ในไฟล์นี้ควรอ่านแบบ learning note:
+ทิศทางระบบหน้าร้านจริงอ่านได้ที่:
 
 ```text
-command = ต้องพิมพ์อะไร
-purpose = ใช้ทำอะไร
-verify  = รู้ได้อย่างไรว่าผ่าน
-caution = ต้องระวังอะไร
+docs/product-spec.md
+docs/implementation-plan.md
 ```
+
+คำสั่งของ NestJS, PostgreSQL/Supabase, และ LINE OA production จะเพิ่มภายหลังเมื่อเริ่มทำ backend จริง
 
 ## Setup
 
@@ -28,7 +21,7 @@ npm install
 
 ใช้ติดตั้ง dependencies จาก `package.json`
 
-โปรเจกต์นี้ใช้ Angular 22 + Tailwind CSS v4 ตามกติกากลางใน `ApoRaviz_Workspace_Docs/angular/commands.md`
+โปรเจ็คนี้ใช้ Angular 22 + Tailwind CSS v4 ตามกติกากลางใน `ApoRaviz_Workspace_Docs/angular/commands.md`
 
 ## Dev Server
 
@@ -42,10 +35,11 @@ Default local URL:
 http://localhost:4200
 ```
 
-ถ้าต้องบังคับ Node 24 และระบุ port:
+ถ้าต้องบังคับ Node 24 บน Windows:
 
-```bash
-PATH=/Users/aporaviz/.nvm/versions/node/v24.16.0/bin:$PATH ./node_modules/.bin/ng serve --host 127.0.0.1 --port 4200
+```powershell
+$env:PATH='C:\Users\tanon\AppData\Local\nvm\v24.16.0;' + $env:PATH
+npm.cmd start
 ```
 
 ## Build
@@ -80,18 +74,26 @@ dist/ApoRaviz_Mooping/browser
 npm test -- --watch=false
 ```
 
-หรือรันด้วย Node 24 แบบชัดเจน:
+หรือรันด้วย Node 24 บน Windows:
 
-```bash
-PATH=/Users/aporaviz/.nvm/versions/node/v24.16.0/bin:$PATH npm test -- --watch=false
+```powershell
+$env:PATH='C:\Users\tanon\AppData\Local\nvm\v24.16.0;' + $env:PATH
+npm.cmd test -- --watch=false
 ```
 
-Current important test coverage:
+Current prototype test coverage:
 
 - App renders the MooPing Reward headline
 - POS sale is staged first and must be confirmed before saving
 - Undo latest sale restores the previous customer state
 - Saving a reward for later moves it into saved rewards instead of losing it
+
+หมายเหตุ:
+
+```text
+ชุด test นี้ยังสะท้อน prototype เดิม
+เมื่อเริ่ม quick-sale-first refactor ต้องปรับ test ให้ตรงกับ product spec ใหม่
+```
 
 ## Git
 
@@ -140,7 +142,8 @@ https://github.com/ApoRaviz/ApoRaviz_Mooping/actions
 
 Local verification before pushing:
 
-```bash
-PATH=/Users/aporaviz/.nvm/versions/node/v24.16.0/bin:$PATH npm test -- --watch=false
-PATH=/Users/aporaviz/.nvm/versions/node/v24.16.0/bin:$PATH npm run build:gh-pages
+```powershell
+$env:PATH='C:\Users\tanon\AppData\Local\nvm\v24.16.0;' + $env:PATH
+npm.cmd test -- --watch=false
+npm.cmd run build:gh-pages
 ```
