@@ -1,13 +1,12 @@
 <aside
   class="display-panel relative flex min-h-[430px] flex-col justify-center gap-3.5 overflow-hidden rounded-lg border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.075),rgba(255,255,255,0.035))] p-[clamp(20px,3vw,32px)] shadow-[0_24px_70px_rgba(0,0,0,0.36)]"
-  [class.reward-ready]="customer().pendingRewards > 0"
+  [class.reward-ready]="customer().pendingRewards > 0 || checkoutPreview().earnedRewards > 0"
   aria-label="Shop iPad display preview"
 >
   <span class="w-max rounded-full border border-mooping-orange/40 bg-mooping-orange/15 px-3 py-1.5 text-xs font-black text-mooping-orange-light">
-    iPad Display
+    {{ saleMode() === 'quick' ? 'Quick Sale Display' : 'Member Display' }}
   </span>
 
-  <!-- ภาพเตาย่างเป็น decorative animation เฉพาะ component นี้ เลยเก็บ keyframes ใน display-panel.css -->
   <div
     class="grill-stage relative grid min-h-28 items-center rounded-lg border border-mooping-orange/20 bg-[linear-gradient(90deg,rgba(255,107,0,0.08),transparent_22%,rgba(255,107,0,0.08)),linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] p-[18px]"
     aria-hidden="true"
@@ -32,14 +31,16 @@
   <strong class="relative text-[2rem] font-black leading-none text-slate-50 sm:text-[2.45rem] lg:text-[3.1rem]">
     {{ customer().name }}
   </strong>
-  <p class="text-xl font-black text-mooping-orange">{{ customer().sticks }} / 10 sticks</p>
+  <p class="text-xl font-black text-mooping-orange">
+    {{ saleMode() === 'quick' ? pendingSticks() + ' ไม้ในบิลนี้' : customer().sticks + ' / 10 ไม้' }}
+  </p>
   <div class="overflow-hidden rounded-full border border-mooping-orange/25 bg-white/5" aria-hidden="true">
     <span
       class="block h-2.5 rounded-full bg-[linear-gradient(90deg,var(--orange),#ffb27a)] shadow-[0_0_18px_rgba(255,107,0,0.38)] transition-[width] duration-300"
       [style.width.%]="customer().sticks * 10"
     ></span>
   </div>
-  <div class="stamp-grid grid grid-cols-[repeat(5,minmax(34px,1fr))] gap-2.5 sm:grid-cols-[repeat(5,minmax(42px,1fr))]" aria-label="Loyalty stamp progress">
+  <div class="stamp-grid grid grid-cols-[repeat(5,minmax(34px,1fr))] gap-2.5 sm:grid-cols-[repeat(5,minmax(42px,1fr))]" aria-label="Reward progress">
     @for (stamp of stamps(); track stamp) {
       <span
         class="grid min-h-14 place-items-center rounded-lg border border-dashed border-mooping-orange/40 bg-white/[0.04] font-black text-[#7d756e] data-[filled=true]:animate-[stamp-glow_1.7s_ease-in-out_infinite] data-[filled=true]:border-mooping-orange data-[filled=true]:bg-mooping-orange data-[filled=true]:text-[#160a03]"
@@ -54,8 +55,13 @@
       รอเลือก {{ customer().pendingRewards }}
     </span>
     <span class="rounded-lg border border-mooping-orange/20 bg-mooping-orange/10 p-2.5 text-center text-[0.84rem] font-black text-[#ffcfad]">
-      เก็บไว้ {{ customer().savedRewards }}
+      Reward ใหม่ {{ checkoutPreview().earnedRewards }}
     </span>
   </div>
+  @if (saleMode() === 'quick' && quickRewardCredits() > 0) {
+    <strong class="rounded-lg border border-mooping-line/30 bg-mooping-line/10 p-3 text-center text-mooping-line">
+      เลือกของแถมได้ {{ quickRewardCredits() }} สิทธิ์
+    </strong>
+  }
   <small class="text-[0.95rem] text-[#b9b3ad]">{{ progressMessage() }}</small>
 </aside>

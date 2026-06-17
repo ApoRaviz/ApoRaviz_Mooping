@@ -1,11 +1,12 @@
 import { Component, input, output } from '@angular/core';
-import { CheckoutPreview, Customer, LastSale } from '../../models/loyalty.models';
+import { CheckoutPreview, Customer, LastSale, SaleMode } from '../../models/reward.models';
 
 @Component({
   selector: 'app-pos-panel',
   templateUrl: './pos-panel.html',
 })
 export class PosPanelComponent {
+  readonly saleMode = input.required<SaleMode>();
   readonly customers = input.required<Customer[]>();
   readonly selectedCustomer = input.required<Customer>();
   readonly selectedCustomerId = input.required<string>();
@@ -16,6 +17,7 @@ export class PosPanelComponent {
   readonly checkoutState = input.required<string>();
   readonly lastSale = input.required<LastSale | null>();
 
+  readonly saleModeChanged = output<SaleMode>();
   readonly customerSelected = output<string>();
   readonly customerSearched = output<string>();
   readonly pendingSticksAdded = output<number>();

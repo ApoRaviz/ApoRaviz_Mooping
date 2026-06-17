@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import { Customer, RewardOption } from '../../models/loyalty.models';
+import { Customer, RewardOption } from '../../models/reward.models';
 
 @Component({
   selector: 'app-reward-panel',

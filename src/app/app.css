@@ -1,5 +1,5 @@
 app-root {
-  /* Token ชุดนี้ยังอยู่ใน component scope เพื่อให้ visual CSS เฉพาะ iPad display ใช้ค่าเดียวกับ Tailwind theme */
+  /* Shared visual tokens for component CSS and Tailwind theme values. */
   --bg: #050505;
   --surface: #111111;
   --surface-soft: #181614;

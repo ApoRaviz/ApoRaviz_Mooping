@@ -52,9 +52,14 @@
 - [x] Rename project skill from `mooping-loyalty` to `mooping-reward`
 - [x] Add reusable LINE OA/webhook learning to `ApoRaviz_Workspace_Docs/backend/`
 - [x] Add real-shop hybrid reward case study to `ApoRaviz_Workspace_Docs/projects/mooping/`
-- [ ] Remove or demote demo mock UI from default app
+- [x] Add quick/member sale mode split in the current Angular prototype
+- [x] Make quick sale the default frontend flow
+- [x] Remove `save-later` from reward choices and add water reward
+- [x] Rename frontend model file from `loyalty.models.ts` to `reward.models.ts`
+- [x] Update frontend tests for walk-in reward claim and member undo flow
+- [x] Remove or demote demo mock wording from default app
 - [ ] Refactor frontend state out of `App`
-- [ ] Build quick sale first UI
+- [x] Build quick sale first UI
 - [ ] Build member sale and LINE linking flow
 - [ ] Prepare NestJS backend contract
 - [ ] Prepare database schema

@@ -35,12 +35,18 @@ Fast sale first, reward optional, LINE only when useful.
 
 ## Current State
 
-โปรเจ็คตอนนี้มี Angular frontend prototype เดิมที่เคยใช้ทดลอง POS/reward/LINE mock flow
+โปรเจ็คตอนนี้มี Angular frontend prototype ที่ปรับเป็น quick-sale-first แล้ว
 
-ทิศทางใหม่คือจะค่อย ๆ ปรับจาก demo ไปเป็นระบบหน้าร้านจริง:
+สิ่งที่มีใน frontend pass แรก:
 
-- หน้า default ต้องเป็น quick sale สำหรับ iPad
-- Mock visual ที่ไม่ช่วย flow หน้าร้านสามารถเอาออกได้
+- หน้า default เป็น quick sale สำหรับ iPad
+- ลูกค้าทั่วไปขายได้โดยไม่ต้องค้นหาสมาชิกหรือแอด LINE
+- มีโหมดสมาชิก LINE แยกเป็นทางเลือกเสริม
+- ซื้อครบ 10 ไม้ในบิลขายเร็วแล้วเลือกของแถมได้ทันที
+- Reward choice เป็น หมูปิ้ง, น้ำเปล่า, ข้าวเหนียว
+
+งานถัดไป:
+
 - Logic ต้องย้ายออกจาก `App` ไป service/store
 - LINE integration จริงต้องผ่าน backend เท่านั้น
 - Backend ระยะยาวใช้ NestJS + PostgreSQL/Supabase

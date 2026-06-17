@@ -1,4 +1,4 @@
-/* CSS ไฟล์นี้เหลือเฉพาะ animation/pseudo-element ที่ Tailwind utility class อธิบายยาก */
+/* Keep animation and pseudo-element rules here because they are clearer than long utility strings. */
 .display-panel::before {
   position: absolute;
   inset: 0;

@@ -48,45 +48,45 @@ Fast sale first, reward optional, LINE only when useful.
 
 ## Step 2 - Remove Or Demote Demo Mock UX
 
-- [ ] 2.1 เอา first screen แบบ showcase/demo ออก
+- [x] 2.1 เอา first screen แบบ showcase/demo ออก
 - [ ] 2.2 เอา animation หมูปิ้งใน `display-panel` ออกหรือย้ายเป็น optional brand decoration
 - [ ] 2.3 เอา `LINE OA Mock` panel ออกจากหน้า default cashier flow
-- [ ] 2.4 เปลี่ยน wording จาก `Demo`, `Mock`, `POS Workspace` ให้เป็นภาษาหน้าร้านจริง
+- [x] 2.4 เปลี่ยน wording จาก `Demo`, `Mock`, `POS Workspace` ให้เป็นภาษาหน้าร้านจริง
 - [ ] 2.5 เก็บ mock เฉพาะใน data adapter/test ไม่ใช่ให้เป็น concept หลักของ UI
-- [ ] 2.6 ปรับ navigation ให้เหมาะกับ iPad POS ไม่ใช่ landing page
+- [x] 2.6 ปรับ navigation ให้เหมาะกับ iPad POS ไม่ใช่ landing page
 
 ## Step 3 - Quick Sale First UI
 
-- [ ] 3.1 ทำหน้า default เป็น `Quick Sale`
-- [ ] 3.2 ปุ่มหลักต้องใหญ่และกดง่าย: `+1`, `+3`, `+5`, `+10`
-- [ ] 3.3 มีปุ่ม correction ชัดเจน: ลบ 1, ล้างรายการ, undo/void
-- [ ] 3.4 แสดง pending ticket ก่อน confirm
-- [ ] 3.5 ถ้าครบ 10 ให้ขึ้น reward choice ทันที
-- [ ] 3.6 ลูกค้า quick sale ต้องจบรายการได้โดยไม่ต้องเลือก customer
-- [ ] 3.7 รองรับซื้อ 10, 20, 30 ไม้ แล้วคำนวณ reward หลายสิทธิ์
+- [x] 3.1 ทำหน้า default เป็น `Quick Sale`
+- [x] 3.2 ปุ่มหลักต้องใหญ่และกดง่าย: `+1`, `+5`, `+10`, `+20`
+- [x] 3.3 มีปุ่ม correction ชัดเจน: ลบ 1, ล้างรายการ, undo/void
+- [x] 3.4 แสดง pending ticket ก่อน confirm
+- [x] 3.5 ถ้าครบ 10 ให้ขึ้น reward choice ทันที
+- [x] 3.6 ลูกค้า quick sale ต้องจบรายการได้โดยไม่ต้องเลือก customer
+- [x] 3.7 รองรับซื้อ 10, 20, 30 ไม้ แล้วคำนวณ reward หลายสิทธิ์
 - [ ] 3.8 ตรวจ iPad landscape viewport เป็นหลัก
 - [ ] 3.9 ตรวจ mobile/desktop เป็นรอง
 - [ ] 3.10 เพิ่ม empty/offline/loading/error state ที่ staff เข้าใจเร็ว
 
 ## Step 4 - Reward Choice System
 
-- [ ] 4.1 เปลี่ยน reward type เป็น `pork-stick`, `water`, `sticky-rice`
-- [ ] 4.2 เอา `save-later` ออกจาก reward choice ของ quick sale
-- [ ] 4.3 สำหรับ member sale ให้รองรับ reward ค้างอยู่แยกจากการเลือกของแถม
-- [ ] 4.4 แยก reward earning กับ reward claiming เป็นคนละ event
+- [x] 4.1 เปลี่ยน reward type เป็น `pork-stick`, `water`, `sticky-rice`
+- [x] 4.2 เอา `save-later` ออกจาก reward choice ของ quick sale
+- [x] 4.3 สำหรับ member sale ให้รองรับ reward ค้างอยู่แยกจากการเลือกของแถม
+- [x] 4.4 แยก reward earning กับ reward claiming เป็นคนละ event
 - [ ] 4.5 ทำ state สำหรับ reward: pending, claimed, voided
 - [ ] 4.6 เพิ่ม audit note เมื่อ staff claim/void reward
 - [ ] 4.7 ทดสอบซื้อครบ 10, เกิน 10, หลาย reward, เลือกของแถม, void
 
 ## Step 5 - Member Sale And LINE Optional Flow
 
-- [ ] 5.1 เพิ่มโหมด `Member Sale` แยกจาก `Quick Sale`
+- [x] 5.1 เพิ่มโหมด `Member Sale` แยกจาก `Quick Sale`
 - [ ] 5.2 ค้นหาลูกค้า member จากชื่อเล่น, เบอร์ท้าย 4 หลัก, หรือ LINE display name
 - [ ] 5.3 แสดง LINE status: linked, unlinked, blocked/unknown
 - [ ] 5.4 เพิ่ม callout สั้น ๆ สำหรับลูกค้าที่ยังไม่แอด LINE
 - [ ] 5.5 ออกแบบ staff-assisted link code สำหรับ v1
 - [ ] 5.6 ผูก LINE userId กับ customer profile ผ่าน backend
-- [ ] 5.7 ไม่บังคับให้ quick buyer เข้า member flow
+- [x] 5.7 ไม่บังคับให้ quick buyer เข้า member flow
 - [ ] 5.8 มี unlink/stop notification path ในแผน admin
 
 ## Step 6 - Frontend Architecture Refactor
@@ -218,4 +218,4 @@ Fast sale first, reward optional, LINE only when useful.
 - [x] Admin/security ถูกวางในแผน
 - [x] Workspace learning capture ถูกระบุ
 - [x] README/progress/skill/docs ทั้งหมดตรงกับแผนใหม่
-- [x] ยังไม่ลงมือรื้อ source code ก่อนจบ planning docs
+- [x] ลงมือปรับ frontend pass 1 แล้ว: quick sale เป็น default, member เป็น secondary, reward choice ตรงกับ v1

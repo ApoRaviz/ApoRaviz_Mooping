@@ -1,7 +1,5 @@
-/* Tailwind v4 เป็น styling system หลักของ frontend project ตามกติกากลางของ workspace */
 @import "tailwindcss";
 
-/* @theme เก็บ token กลางของ MooPing เพื่อให้ template ใช้ class เช่น bg-mooping-dark และ text-mooping-orange ได้ */
 @theme {
   --color-mooping-bg: #050505;
   --color-mooping-surface: #111111;

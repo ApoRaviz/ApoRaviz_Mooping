@@ -4,7 +4,7 @@ import { LinePanelComponent } from './components/line-panel/line-panel';
 import { PosPanelComponent } from './components/pos-panel/pos-panel';
 import { RewardPanelComponent } from './components/reward-panel/reward-panel';
 import { TopNavComponent } from './components/top-nav/top-nav';
-import { Customer, LastSale, LineMessage, RewardOption } from './models/loyalty.models';
+import { Customer, LastSale, LineMessage, RewardOption, SaleMode } from './models/reward.models';
 
 @Component({
   selector: 'app-root',
@@ -14,27 +14,30 @@ import { Customer, LastSale, LineMessage, RewardOption } from './models/loyalty.
   encapsulation: ViewEncapsulation.None,
 })
 export class App {
-  protected readonly quickAmounts = [1, 3, 5, 10];
+  protected readonly quickAmounts = [1, 5, 10, 20];
   protected readonly rewards: RewardOption[] = [
-    { id: 'pork-stick', name: 'หมูปิ้ง 1 ไม้', icon: 'M' },
-    { id: 'sticky-rice', name: 'ข้าวเหนียว 1 ห่อ', icon: 'R' },
-    { id: 'save-later', name: 'เก็บสิทธิ์ไว้ก่อน', icon: 'S' },
+    { id: 'pork-stick', name: 'หมูปิ้ง 1 ไม้', shortName: 'หมูปิ้ง', icon: 'หมู' },
+    { id: 'water', name: 'น้ำเปล่า 1 ขวด', shortName: 'น้ำเปล่า', icon: 'น้ำ' },
+    { id: 'sticky-rice', name: 'ข้าวเหนียว 1 ห่อ', shortName: 'ข้าวเหนียว', icon: 'ข้าว' },
   ];
 
   protected readonly customers = signal<Customer[]>([
-    { id: 'a', name: 'คุณ A', phone: '081-111-1111', sticks: 7, pendingRewards: 0, savedRewards: 0, totalPurchased: 7 },
-    { id: 'b', name: 'คุณ B', phone: '082-222-2222', sticks: 9, pendingRewards: 0, savedRewards: 1, totalPurchased: 19 },
-    { id: 'c', name: 'คุณ C', phone: '083-333-3333', sticks: 2, pendingRewards: 1, savedRewards: 2, totalPurchased: 32 },
+    { id: 'a', name: 'คุณเอ', phone: '081-111-1111', sticks: 7, pendingRewards: 0, savedRewards: 0, totalPurchased: 7 },
+    { id: 'b', name: 'คุณบี', phone: '082-222-2222', sticks: 9, pendingRewards: 0, savedRewards: 1, totalPurchased: 19 },
+    { id: 'c', name: 'คุณซี', phone: '083-333-3333', sticks: 2, pendingRewards: 1, savedRewards: 2, totalPurchased: 32 },
   ]);
+  protected readonly saleMode = signal<SaleMode>('quick');
   protected readonly selectedCustomerId = signal('a');
   protected readonly customerSearch = signal('');
   protected readonly pendingSticks = signal(0);
+  protected readonly quickRewardCredits = signal(0);
+  protected readonly totalQuickSticks = signal(0);
   protected readonly lastSale = signal<LastSale | null>(null);
   protected readonly lineMessages = signal<LineMessage[]>([
     {
       id: 1,
-      time: 'Demo',
-      text: 'ยินดีต้อนรับสู่ MooPing Reward ซื้อครบ 10 ไม้ เลือกของแถมเองได้เลย',
+      time: 'เริ่มต้น',
+      text: 'MooPing Reward พร้อมขายเร็ว: ลูกค้าซื้อครบ 10 ไม้ เลือกของแถมได้ทันที โดยไม่ต้องแอด LINE',
     },
   ]);
 
@@ -42,7 +45,39 @@ export class App {
     return this.customers().find((customer) => customer.id === this.selectedCustomerId()) ?? this.customers()[0];
   });
 
-  // ใช้สำหรับค้นหาลูกค้าหน้าร้านจากชื่อหรือเบอร์ โดยยังเก็บ source data จริงไว้ที่ customers()
+  protected readonly displayCustomer = computed<Customer>(() => {
+    if (this.saleMode() === 'member') {
+      return this.selectedCustomer();
+    }
+
+    return {
+      id: 'walk-in',
+      name: 'ลูกค้าหน้าร้าน',
+      phone: 'ไม่บันทึกข้อมูลลูกค้า',
+      sticks: this.pendingSticks() % 10,
+      pendingRewards: this.quickRewardCredits(),
+      savedRewards: 0,
+      totalPurchased: this.totalQuickSticks() + this.pendingSticks(),
+    };
+  });
+
+  protected readonly rewardCustomer = computed<Customer>(() => {
+    if (this.saleMode() === 'member') {
+      return this.selectedCustomer();
+    }
+
+    return {
+      id: 'walk-in-reward',
+      name: 'ลูกค้าหน้าร้าน',
+      phone: 'ขายเร็ว ไม่ผูกบัญชี LINE',
+      sticks: 0,
+      pendingRewards: this.quickRewardCredits(),
+      savedRewards: 0,
+      totalPurchased: this.totalQuickSticks(),
+    };
+  });
+
+  // Keep the member lookup secondary so the default morning flow can stay fast.
   protected readonly filteredCustomers = computed(() => {
     const keyword = this.customerSearch().trim().toLowerCase();
 
@@ -58,16 +93,32 @@ export class App {
   protected readonly stamps = computed(() => Array.from({ length: 10 }, (_, index) => index + 1));
 
   protected readonly checkoutPreview = computed(() => {
-    const customer = this.selectedCustomer();
     const pending = this.pendingSticks();
+
+    if (this.saleMode() === 'quick') {
+      const earnedRewards = Math.floor(pending / 10);
+      const remainingSticks = pending % 10;
+
+      return {
+        earnedRewards,
+        remainingSticks,
+        nextTotalPurchased: this.totalQuickSticks() + pending,
+        nextProgressLabel: pending > 0 ? `${pending}/10 ในบิลนี้` : 'พร้อมขายเร็ว',
+        untrackedSticks: remainingSticks,
+      };
+    }
+
+    const customer = this.selectedCustomer();
     const nextTotalSticks = customer.sticks + pending;
     const earnedRewards = Math.floor(nextTotalSticks / 10);
+    const remainingSticks = nextTotalSticks % 10;
 
     return {
       earnedRewards,
-      remainingSticks: nextTotalSticks % 10,
+      remainingSticks,
       nextTotalPurchased: customer.totalPurchased + pending,
-      nextProgressLabel: pending > 0 ? `${nextTotalSticks % 10}/10` : `${customer.sticks}/10`,
+      nextProgressLabel: pending > 0 ? `${remainingSticks}/10` : `${customer.sticks}/10`,
+      untrackedSticks: 0,
     };
   });
 
@@ -82,7 +133,38 @@ export class App {
     return preview.earnedRewards > 0 ? 'reward-ready' : 'pending-sale';
   });
 
+  protected readonly shopStatusLabel = computed(() => {
+    if (this.checkoutState() === 'reward-ready') {
+      return 'มี Reward ใหม่';
+    }
+
+    if (this.checkoutState() === 'pending-sale') {
+      return 'รอยืนยันยอด';
+    }
+
+    if (this.rewardCustomer().pendingRewards + this.rewardCustomer().savedRewards > 0) {
+      return 'รอเลือกของแถม';
+    }
+
+    return this.saleMode() === 'quick' ? 'พร้อมขายเร็ว' : 'พร้อมขายสมาชิก';
+  });
+
   protected readonly progressMessage = computed(() => {
+    if (this.saleMode() === 'quick') {
+      if (this.quickRewardCredits() > 0) {
+        return `มีของแถมรอเลือก ${this.quickRewardCredits()} สิทธิ์`;
+      }
+
+      if (this.pendingSticks() > 0) {
+        const preview = this.checkoutPreview();
+        return preview.earnedRewards > 0
+          ? `บิลนี้ได้ของแถม ${preview.earnedRewards} สิทธิ์`
+          : 'ขายเร็ว: ไม่สะสมข้ามรอบ ถ้าต้องสะสมให้ใช้โหมดสมาชิก';
+      }
+
+      return 'พร้อมขายเร็ว ไม่ต้องค้นหาลูกค้า';
+    }
+
     const customer = this.selectedCustomer();
 
     if (customer.pendingRewards > 0) {
@@ -92,6 +174,11 @@ export class App {
     const remaining = 10 - customer.sticks;
     return remaining === 10 ? 'เริ่มสะสมรอบใหม่ได้เลย' : `อีก ${remaining} ไม้จะได้รับ reward`;
   });
+
+  protected selectSaleMode(mode: SaleMode): void {
+    this.saleMode.set(mode);
+    this.pendingSticks.set(0);
+  }
 
   protected selectCustomer(customerId: string): void {
     this.selectedCustomerId.set(customerId);
@@ -121,6 +208,29 @@ export class App {
       return;
     }
 
+    if (this.saleMode() === 'quick') {
+      const earnedRewards = Math.floor(amount / 10);
+      const creditsBefore = this.quickRewardCredits();
+      const totalQuickSticksBefore = this.totalQuickSticks();
+
+      this.quickRewardCredits.update((credits) => credits + earnedRewards);
+      this.totalQuickSticks.update((sticks) => sticks + amount);
+      this.lastSale.set({
+        mode: 'quick',
+        quickRewardCreditsBefore: creditsBefore,
+        totalQuickSticksBefore,
+        sticksAdded: amount,
+        earnedRewards,
+      });
+      this.pendingSticks.set(0);
+      this.pushLineMessage(
+        earnedRewards > 0
+          ? `ขายเร็ว ${amount} ไม้ ได้ของแถม ${earnedRewards} สิทธิ์ เลือกหมูปิ้ง น้ำเปล่า หรือข้าวเหนียวได้เลย`
+          : `ขายเร็ว ${amount} ไม้ จบรายการโดยไม่เก็บข้อมูลลูกค้า`,
+      );
+      return;
+    }
+
     const customer = this.selectedCustomer();
     const customerBefore = { ...customer };
     const nextTotalSticks = customerBefore.sticks + amount;
@@ -140,12 +250,18 @@ export class App {
       ),
     );
 
-    this.lastSale.set({ customerId: customerBefore.id, customerBefore, sticksAdded: amount });
+    this.lastSale.set({
+      mode: 'member',
+      customerId: customerBefore.id,
+      customerBefore,
+      sticksAdded: amount,
+      earnedRewards,
+    });
     this.pendingSticks.set(0);
     this.pushLineMessage(
       earnedRewards > 0
         ? `${customerBefore.name} ซื้อเพิ่ม ${amount} ไม้ ครบ 10 แล้ว เลือกของแถมได้ ${earnedRewards} สิทธิ์`
-        : `${customerBefore.name} ซื้อเพิ่ม ${amount} ไม้ ${10 - remainingSticks} ไม้จะครบ reward แล้ว`,
+        : `${customerBefore.name} ซื้อเพิ่ม ${amount} ไม้ อีก ${10 - remainingSticks} ไม้จะครบ reward`,
     );
   }
 
@@ -153,6 +269,15 @@ export class App {
     const sale = this.lastSale();
 
     if (!sale) {
+      return;
+    }
+
+    if (sale.mode === 'quick') {
+      this.quickRewardCredits.set(sale.quickRewardCreditsBefore);
+      this.totalQuickSticks.set(sale.totalQuickSticksBefore);
+      this.lastSale.set(null);
+      this.pendingSticks.set(0);
+      this.pushLineMessage(`ยกเลิกรายการขายเร็วล่าสุด ${sale.sticksAdded} ไม้ และคืนสถานะของแถมแล้ว`);
       return;
     }
 
@@ -166,13 +291,19 @@ export class App {
   }
 
   protected claimReward(reward: RewardOption): void {
-    const customer = this.selectedCustomer();
+    if (this.saleMode() === 'quick') {
+      if (this.quickRewardCredits() <= 0) {
+        return;
+      }
 
-    if (customer.pendingRewards + customer.savedRewards <= 0) {
+      this.quickRewardCredits.update((credits) => credits - 1);
+      this.pushLineMessage(`ลูกค้าหน้าร้านเลือกของแถมเป็น ${reward.name} เรียบร้อยแล้ว`);
       return;
     }
 
-    if (reward.id === 'save-later' && customer.pendingRewards <= 0) {
+    const customer = this.selectedCustomer();
+
+    if (customer.pendingRewards + customer.savedRewards <= 0) {
       return;
     }
 
@@ -180,14 +311,6 @@ export class App {
       customers.map((item) => {
         if (item.id !== customer.id) {
           return item;
-        }
-
-        if (reward.id === 'save-later') {
-          return {
-            ...item,
-            pendingRewards: item.pendingRewards - 1,
-            savedRewards: item.savedRewards + 1,
-          };
         }
 
         if (item.pendingRewards > 0) {
@@ -198,11 +321,7 @@ export class App {
       }),
     );
 
-    this.pushLineMessage(
-      reward.id === 'save-later'
-        ? `${customer.name} เก็บ reward ไว้ใช้ครั้งหน้า ตอนนี้มีสิทธิ์ที่เก็บไว้ ${customer.savedRewards + 1} สิทธิ์`
-        : `${customer.name} เลือกของแถมเป็น ${reward.name} เรียบร้อยแล้ว`,
-    );
+    this.pushLineMessage(`${customer.name} เลือกของแถมเป็น ${reward.name} เรียบร้อยแล้ว`);
   }
 
   private pushLineMessage(text: string): void {

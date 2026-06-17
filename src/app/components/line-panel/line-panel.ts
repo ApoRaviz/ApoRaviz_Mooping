@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { LineMessage } from '../../models/loyalty.models';
+import { LineMessage } from '../../models/reward.models';
 
 @Component({
   selector: 'app-line-panel',
