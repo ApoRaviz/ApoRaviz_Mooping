@@ -23,19 +23,11 @@
         </p>
       </div>
 
-      <div
-        class="grid gap-[7px] rounded-lg border border-mooping-orange/25 bg-[linear-gradient(180deg,rgba(255,107,0,0.13),rgba(255,255,255,0.04))] bg-mooping-surface p-4"
-        aria-label="Current shop status"
-      >
-        <span class="text-[0.82rem] font-extrabold text-[#b9b3ad]">สถานะหน้าร้าน</span>
-        <strong class="text-2xl font-black leading-[1.05] text-mooping-orange-light">
-          {{ store.shopStatusLabel() }}
-        </strong>
-        <small class="text-[0.82rem] font-extrabold text-[#b9b3ad]">
-          {{ store.saleMode() === 'quick' ? 'ขายเร็ว' : 'สมาชิก LINE' }} ·
-          {{ store.progressMessage() }}
-        </small>
-      </div>
+      <app-shift-status-panel
+        [saleMode]="store.saleMode()"
+        [statusLabel]="store.shopStatusLabel()"
+        [progressMessage]="store.progressMessage()"
+      />
     </header>
 
     <div

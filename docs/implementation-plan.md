@@ -99,7 +99,7 @@ Fast sale first, reward optional, LINE only when useful.
 - [x] 6.4 แยก `QuickSalePanel`
 - [x] 6.5 แยก `MemberSalePanel`
 - [x] 6.6 ใช้ `RewardPanelComponent` เป็น owner ของ reward choice UI
-- [ ] 6.7 แยก `ShiftStatusPanel`
+- [x] 6.7 แยก `ShiftStatusPanel`
 - [ ] 6.8 แยก repository interface: mock adapter ก่อน, HTTP adapter ภายหลัง
 - [x] 6.9 ลด logic ใน `App` ให้เหลือ composition และ event wiring
 - [ ] 6.10 เพิ่ม SSR-safe persistence เฉพาะข้อมูล draft ที่ไม่ใช่ secret

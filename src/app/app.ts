@@ -3,6 +3,7 @@ import { DisplayPanelComponent } from './components/display-panel/display-panel'
 import { LinePanelComponent } from './components/line-panel/line-panel';
 import { PosPanelComponent } from './components/pos-panel/pos-panel';
 import { RewardPanelComponent } from './components/reward-panel/reward-panel';
+import { ShiftStatusPanelComponent } from './components/shift-status-panel/shift-status-panel';
 import { TopNavComponent } from './components/top-nav/top-nav';
 import { RewardOption, SaleMode } from './models/reward.models';
 import { LoyaltyStoreService } from './services/loyalty-store.service';
@@ -14,6 +15,7 @@ import { LoyaltyStoreService } from './services/loyalty-store.service';
     DisplayPanelComponent,
     PosPanelComponent,
     RewardPanelComponent,
+    ShiftStatusPanelComponent,
     LinePanelComponent,
   ],
   templateUrl: './app.html',
