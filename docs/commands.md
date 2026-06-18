@@ -50,6 +50,8 @@ npm run build
 
 ใช้ build production และตรวจว่า Angular compile/prerender ผ่าน
 
+โปรเจกต์นี้ปิด Angular persistent disk cache ใน `angular.json` เพราะ native LMDB cache เคยทำให้ Node abort บน macOS/Node environment ปัจจุบัน การปิด cache อาจทำให้ build ช้าลงเล็กน้อย แต่ไม่เปลี่ยน output ของ app
+
 ## GitHub Pages Build
 
 ```bash
@@ -84,16 +86,11 @@ npm.cmd test -- --watch=false
 Current prototype test coverage:
 
 - App renders the MooPing Reward headline
-- POS sale is staged first and must be confirmed before saving
-- Undo latest sale restores the previous customer state
-- Saving a reward for later moves it into saved rewards instead of losing it
-
-หมายเหตุ:
-
-```text
-ชุด test นี้ยังสะท้อน prototype เดิม
-เมื่อเริ่ม quick-sale-first refactor ต้องปรับ test ให้ตรงกับ product spec ใหม่
-```
+- Quick Sale earns and claims rewards without LINE
+- Member Sale accumulation remains separate from Quick Sale
+- Undo latest member sale restores the previous customer state
+- Reward calculation covers 9, 10, 20, and existing 7 + new 5 sticks
+- `LoyaltyStoreService` handles quick sale, member sale, undo, and reward claiming
 
 ## Git
 

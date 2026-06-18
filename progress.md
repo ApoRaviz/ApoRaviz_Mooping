@@ -58,7 +58,13 @@
 - [x] Rename frontend model file from `loyalty.models.ts` to `reward.models.ts`
 - [x] Update frontend tests for walk-in reward claim and member undo flow
 - [x] Remove or demote demo mock wording from default app
-- [ ] Refactor frontend state out of `App`
+- [x] Refactor frontend state and business actions out of `App` into `LoyaltyStoreService`
+- [x] Add pure reward calculation helper with focused unit tests
+- [x] Reduce `App` to component composition and event forwarding
+- [x] Split Quick Sale and Member Sale presentation into focused components
+- [x] Keep shared quantity/confirm/undo controls owned by `PosPanelComponent`
+- [x] Add TypeScript 6 `rootDir` config for app source layout
+- [x] Disable Angular persistent disk cache to avoid native LMDB crash on the current macOS/Node environment
 - [x] Build quick sale first UI
 - [ ] Build member sale and LINE linking flow
 - [ ] Prepare NestJS backend contract

@@ -1,10 +1,15 @@
-<article class="flex flex-col gap-[18px] rounded-lg border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.075),rgba(255,255,255,0.035))] p-5 shadow-[0_24px_70px_rgba(0,0,0,0.36)]">
+<article
+  class="flex flex-col gap-[18px] rounded-lg border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.075),rgba(255,255,255,0.035))] p-5 shadow-[0_24px_70px_rgba(0,0,0,0.36)]"
+>
   <header>
     <p class="mb-2.5 text-xs font-black uppercase tracking-normal text-mooping-orange">POS Mode</p>
     <h3 class="text-xl font-bold leading-tight text-slate-50">ขายหน้าร้าน</h3>
   </header>
 
-  <div class="grid grid-cols-2 gap-2 rounded-lg border border-white/10 bg-black/30 p-1.5" aria-label="Sale mode">
+  <div
+    class="grid grid-cols-2 gap-2 rounded-lg border border-white/10 bg-black/30 p-1.5"
+    aria-label="Sale mode"
+  >
     <button
       type="button"
       class="min-h-12 rounded-md px-3 font-black text-[#b9b3ad] transition data-[active=true]:bg-mooping-orange data-[active=true]:text-[#160a03] hover:text-slate-50 focus-visible:outline-[3px] focus-visible:outline-mooping-orange/20"
@@ -24,57 +29,16 @@
   </div>
 
   @if (saleMode() === 'member') {
-    <fieldset class="grid min-w-0 gap-[9px] border-0 p-0">
-      <legend class="mb-2.5 text-[0.98rem] font-black text-slate-50">ค้นหาและเลือกลูกค้า</legend>
-      <label class="text-sm font-extrabold text-[#b9b3ad]" for="customer-search">ชื่อหรือเบอร์โทร</label>
-      <input
-        class="min-h-[46px] w-full rounded-lg border border-white/10 bg-[#0b0b0b] px-3 text-slate-50 focus-visible:border-mooping-orange/60 focus-visible:outline-[3px] focus-visible:outline-mooping-orange/20"
-        id="customer-search"
-        type="search"
-        [value]="customerSearch()"
-        placeholder="พิมพ์ชื่อหรือเบอร์ เช่น 081"
-        autocomplete="off"
-        (input)="updateSearch($event)"
-      />
-
-      <label class="text-sm font-extrabold text-[#b9b3ad]" for="customer">รายการที่พบ</label>
-      <select
-        class="min-h-[46px] w-full rounded-lg border border-white/10 bg-[#0b0b0b] px-3 text-slate-50 focus-visible:border-mooping-orange/60 focus-visible:outline-[3px] focus-visible:outline-mooping-orange/20"
-        id="customer"
-        [value]="selectedCustomerId()"
-        (change)="selectCustomer($event)"
-      >
-        @for (customer of customers(); track customer.id) {
-          <option [value]="customer.id">{{ customer.name }} - {{ customer.phone }}</option>
-        }
-      </select>
-
-      @if (customers().length === 0) {
-        <p class="text-[#b9b3ad]">ไม่พบลูกค้าจากคำค้นนี้ รอบ backend จะเพิ่ม flow สร้างลูกค้าใหม่หลังจากยืนยันตัวตนผ่าน LINE</p>
-      }
-    </fieldset>
-
-    <section
-      class="grid grid-cols-1 items-center gap-3 rounded-lg border border-mooping-line/25 bg-mooping-line/10 p-3.5 sm:grid-cols-[minmax(0,1fr)_max-content]"
-      aria-label="Selected customer profile"
-    >
-      <div>
-        <span class="block text-[0.82rem] font-extrabold text-[#b9b3ad]">ลูกค้าปัจจุบัน</span>
-        <strong class="my-1 block text-[1.35rem] font-black leading-[1.12] text-slate-50">{{ selectedCustomer().name }}</strong>
-        <small class="block text-[0.82rem] font-extrabold text-[#b9b3ad]">{{ selectedCustomer().phone }}</small>
-      </div>
-      <div class="inline-flex w-max items-center gap-2 rounded-full border border-mooping-line/30 px-2.5 py-2 text-[0.78rem] font-black text-[#b8f7cf]">
-        <span class="h-2 w-2 rounded-full bg-mooping-line"></span>
-        พร้อมแจ้งเตือน
-      </div>
-    </section>
+    <app-member-sale-panel
+      [customers]="customers()"
+      [selectedCustomer]="selectedCustomer()"
+      [selectedCustomerId]="selectedCustomerId()"
+      [customerSearch]="customerSearch()"
+      (customerSelected)="customerSelected.emit($event)"
+      (customerSearched)="customerSearched.emit($event)"
+    />
   } @else {
-    <section class="grid gap-2 rounded-lg border border-mooping-orange/25 bg-mooping-orange/10 p-3.5" aria-label="Quick sale behavior">
-      <strong class="text-[1.05rem] font-black text-slate-50">ลูกค้าทั่วไป ไม่ต้องค้นหา ไม่ต้องกรอกเบอร์</strong>
-      <p class="leading-6 text-[#b9b3ad]">
-        ใช้กับลูกค้าที่รีบซื้อแล้วไปทันที ถ้าซื้อครบ 10 ไม้ในบิลนี้ จะเลือกของแถมได้เลยโดยไม่ต้องแอด LINE
-      </p>
-    </section>
+    <app-quick-sale-panel />
   }
 
   <div class="grid grid-cols-2 gap-2.5 sm:grid-cols-4" aria-label="Quick add sticks">
@@ -96,28 +60,42 @@
   >
     <div class="flex items-center justify-between gap-3">
       <span class="text-[#b9b3ad]">รายการรอยืนยัน</span>
-      <strong class="text-[1.65rem] font-black text-mooping-orange-light">{{ pendingSticks() }} ไม้</strong>
+      <strong class="text-[1.65rem] font-black text-mooping-orange-light"
+        >{{ pendingSticks() }} ไม้</strong
+      >
     </div>
 
     @if (pendingSticks() > 0) {
-      <div class="grid grid-cols-1 gap-2 sm:grid-cols-3" aria-label="Checkout preview before confirmation">
+      <div
+        class="grid grid-cols-1 gap-2 sm:grid-cols-3"
+        aria-label="Checkout preview before confirmation"
+      >
         <div class="rounded-lg border border-mooping-orange/20 bg-white/[0.045] p-2.5">
           <span class="block text-xs font-black text-[#b9b3ad]">หลังยืนยัน</span>
-          <strong class="mt-1 block text-xl font-black text-mooping-orange-light">{{ checkoutPreview().nextProgressLabel }}</strong>
+          <strong class="mt-1 block text-xl font-black text-mooping-orange-light">{{
+            checkoutPreview().nextProgressLabel
+          }}</strong>
         </div>
         <div class="rounded-lg border border-mooping-orange/20 bg-white/[0.045] p-2.5">
           <span class="block text-xs font-black text-[#b9b3ad]">Reward ใหม่</span>
-          <strong class="mt-1 block text-xl font-black text-mooping-orange-light">{{ checkoutPreview().earnedRewards }}</strong>
+          <strong class="mt-1 block text-xl font-black text-mooping-orange-light">{{
+            checkoutPreview().earnedRewards
+          }}</strong>
         </div>
         <div class="rounded-lg border border-mooping-orange/20 bg-white/[0.045] p-2.5">
           <span class="block text-xs font-black text-[#b9b3ad]">ยอดขายรวม</span>
-          <strong class="mt-1 block text-xl font-black text-mooping-orange-light">{{ checkoutPreview().nextTotalPurchased }}</strong>
+          <strong class="mt-1 block text-xl font-black text-mooping-orange-light">{{
+            checkoutPreview().nextTotalPurchased
+          }}</strong>
         </div>
       </div>
 
       @if (saleMode() === 'quick' && checkoutPreview().untrackedSticks > 0) {
-        <p class="rounded-lg border border-white/10 bg-black/25 p-3 text-sm leading-6 text-[#b9b3ad]">
-          เศษ {{ checkoutPreview().untrackedSticks }} ไม้ในบิลขายเร็วนี้จะไม่ถูกเก็บข้ามรอบ ถ้าลูกค้าอยากสะสมให้เปลี่ยนเป็นโหมดสมาชิกก่อนยืนยัน
+        <p
+          class="rounded-lg border border-white/10 bg-black/25 p-3 text-sm leading-6 text-[#b9b3ad]"
+        >
+          เศษ {{ checkoutPreview().untrackedSticks }} ไม้ในบิลขายเร็วนี้จะไม่ถูกเก็บข้ามรอบ
+          ถ้าลูกค้าอยากสะสมให้เปลี่ยนเป็นโหมดสมาชิกก่อนยืนยัน
         </p>
       }
     } @else {
@@ -162,25 +140,4 @@
       ยกเลิกรายการล่าสุด
     </button>
   </div>
-
-  @if (saleMode() === 'member') {
-    <div class="grid gap-2.5">
-      <div class="flex items-center justify-between rounded-lg border border-mooping-orange/20 bg-mooping-orange/10 p-3.5">
-        <span class="text-[#b9b3ad]">ยอดสะสม</span>
-        <strong class="text-[1.35rem] font-black text-mooping-orange-light">{{ selectedCustomer().sticks }}/10</strong>
-      </div>
-      <div class="flex items-center justify-between rounded-lg border border-mooping-orange/20 bg-mooping-orange/10 p-3.5">
-        <span class="text-[#b9b3ad]">Reward รอเลือก</span>
-        <strong class="text-[1.35rem] font-black text-mooping-orange-light">{{ selectedCustomer().pendingRewards }}</strong>
-      </div>
-      <div class="flex items-center justify-between rounded-lg border border-mooping-orange/20 bg-mooping-orange/10 p-3.5">
-        <span class="text-[#b9b3ad]">สิทธิ์เดิม</span>
-        <strong class="text-[1.35rem] font-black text-mooping-orange-light">{{ selectedCustomer().savedRewards }}</strong>
-      </div>
-      <div class="flex items-center justify-between rounded-lg border border-mooping-orange/20 bg-mooping-orange/10 p-3.5">
-        <span class="text-[#b9b3ad]">ซื้อทั้งหมด</span>
-        <strong class="text-[1.35rem] font-black text-mooping-orange-light">{{ selectedCustomer().totalPurchased }}</strong>
-      </div>
-    </div>
-  }
 </article>

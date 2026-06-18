@@ -1,5 +1,7 @@
 export type SaleMode = 'quick' | 'member';
 
+export type CheckoutState = 'empty' | 'pending-sale' | 'reward-ready';
+
 export type Customer = {
   id: string;
   name: string;
@@ -29,6 +31,11 @@ export type CheckoutPreview = {
   nextTotalPurchased: number;
   nextProgressLabel: string;
   untrackedSticks: number;
+};
+
+export type RewardCalculation = {
+  earnedRewards: number;
+  remainingSticks: number;
 };
 
 export type LastSale =

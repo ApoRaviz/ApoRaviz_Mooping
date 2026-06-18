@@ -26,6 +26,8 @@ Fast sale first, reward optional, LINE only when useful.
 
 - [x] Angular frontend scaffold พร้อม SSR/prerender config
 - [x] Tailwind CSS v4 setup
+- [x] TypeScript 6 app config มี `rootDir: "./src"`
+- [x] ปิด Angular persistent disk cache เพื่อหลีกเลี่ยง native LMDB crash บน environment ปัจจุบัน
 - [x] GitHub Pages workflow สำหรับ frontend artifact
 - [x] POS/reward/display/LINE mock components รุ่น demo
 - [x] Business rule เดิม: ซื้อครบ 10 ไม้ได้ 1 reward
@@ -91,15 +93,15 @@ Fast sale first, reward optional, LINE only when useful.
 
 ## Step 6 - Frontend Architecture Refactor
 
-- [ ] 6.1 ย้าย mock customer data ออกจาก `App`
-- [ ] 6.2 สร้าง `LoyaltyStoreService` สำหรับ state หลัก
-- [ ] 6.3 สร้าง pure helper สำหรับคำนวณ reward
-- [ ] 6.4 แยก `QuickSalePanel`
-- [ ] 6.5 แยก `MemberSalePanel`
-- [ ] 6.6 แยก `RewardChoicePanel`
+- [x] 6.1 ย้าย mock customer data ออกจาก `App`
+- [x] 6.2 สร้าง `LoyaltyStoreService` สำหรับ state หลัก
+- [x] 6.3 สร้าง pure helper สำหรับคำนวณ reward
+- [x] 6.4 แยก `QuickSalePanel`
+- [x] 6.5 แยก `MemberSalePanel`
+- [x] 6.6 ใช้ `RewardPanelComponent` เป็น owner ของ reward choice UI
 - [ ] 6.7 แยก `ShiftStatusPanel`
 - [ ] 6.8 แยก repository interface: mock adapter ก่อน, HTTP adapter ภายหลัง
-- [ ] 6.9 ลด logic ใน `App` ให้เหลือ composition และ event wiring
+- [x] 6.9 ลด logic ใน `App` ให้เหลือ composition และ event wiring
 - [ ] 6.10 เพิ่ม SSR-safe persistence เฉพาะข้อมูล draft ที่ไม่ใช่ secret
 
 ## Step 7 - Local Prototype Persistence
