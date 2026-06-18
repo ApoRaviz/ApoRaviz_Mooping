@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { CUSTOMER_REPOSITORY } from '../repositories/customer.repository';
 import { LoyaltyStoreService } from './loyalty-store.service';
 
 describe('LoyaltyStoreService', () => {
@@ -17,6 +18,12 @@ describe('LoyaltyStoreService', () => {
     expect(store.quickRewardCredits()).toBe(2);
     expect(store.pendingSticks()).toBe(0);
     expect(store.customers()[0].totalPurchased).toBe(7);
+  });
+
+  it('reads customer state through the repository contract', () => {
+    const repository = TestBed.inject(CUSTOMER_REPOSITORY);
+
+    expect(store.customers).toBe(repository.customers);
   });
 
   it('adds a member sale to the selected customer and can undo it', () => {

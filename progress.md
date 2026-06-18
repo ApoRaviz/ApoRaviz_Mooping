@@ -64,6 +64,8 @@
 - [x] Split Quick Sale and Member Sale presentation into focused components
 - [x] Keep shared quantity/confirm/undo controls owned by `PosPanelComponent`
 - [x] Extract shop status summary into `ShiftStatusPanelComponent`
+- [x] Add `CustomerRepository` contract and `MockCustomerRepository` adapter
+- [x] Move mock customer ownership out of `LoyaltyStoreService`
 - [x] Add TypeScript 6 `rootDir` config for app source layout
 - [x] Disable Angular persistent disk cache to avoid native LMDB crash on the current macOS/Node environment
 - [x] Build quick sale first UI

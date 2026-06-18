@@ -1,4 +1,4 @@
-import { computed, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import {
   CheckoutPreview,
   CheckoutState,
@@ -8,12 +8,15 @@ import {
   RewardOption,
   SaleMode,
 } from '../models/reward.models';
+import { CUSTOMER_REPOSITORY } from '../repositories/customer.repository';
 import { calculateRewardProgress, STICKS_PER_REWARD } from './reward-calculation';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LoyaltyStoreService {
+  private readonly customerRepository = inject(CUSTOMER_REPOSITORY);
+
   readonly quickAmounts = [1, 5, 10, 20];
   readonly rewards: RewardOption[] = [
     { id: 'pork-stick', name: 'หมูปิ้ง 1 ไม้', shortName: 'หมูปิ้ง', icon: 'หมู' },
@@ -21,35 +24,7 @@ export class LoyaltyStoreService {
     { id: 'sticky-rice', name: 'ข้าวเหนียว 1 ห่อ', shortName: 'ข้าวเหนียว', icon: 'ข้าว' },
   ];
 
-  readonly customers = signal<Customer[]>([
-    {
-      id: 'a',
-      name: 'คุณเอ',
-      phone: '081-111-1111',
-      sticks: 7,
-      pendingRewards: 0,
-      savedRewards: 0,
-      totalPurchased: 7,
-    },
-    {
-      id: 'b',
-      name: 'คุณบี',
-      phone: '082-222-2222',
-      sticks: 9,
-      pendingRewards: 0,
-      savedRewards: 1,
-      totalPurchased: 19,
-    },
-    {
-      id: 'c',
-      name: 'คุณซี',
-      phone: '083-333-3333',
-      sticks: 2,
-      pendingRewards: 1,
-      savedRewards: 2,
-      totalPurchased: 32,
-    },
-  ]);
+  readonly customers = this.customerRepository.customers;
   readonly saleMode = signal<SaleMode>('quick');
   readonly selectedCustomerId = signal('a');
   readonly customerSearch = signal('');
@@ -260,7 +235,7 @@ export class LoyaltyStoreService {
       return;
     }
 
-    this.customers.update((customers) =>
+    this.customerRepository.updateCustomers((customers) =>
       customers.map((customer) =>
         customer.id === sale.customerId ? { ...sale.customerBefore } : customer,
       ),
@@ -290,7 +265,7 @@ export class LoyaltyStoreService {
       return;
     }
 
-    this.customers.update((customers) =>
+    this.customerRepository.updateCustomers((customers) =>
       customers.map((item) => {
         if (item.id !== customer.id) {
           return item;
@@ -334,7 +309,7 @@ export class LoyaltyStoreService {
     const customerBefore = { ...customer };
     const calculation = calculateRewardProgress(customerBefore.sticks, amount);
 
-    this.customers.update((customers) =>
+    this.customerRepository.updateCustomers((customers) =>
       customers.map((item) =>
         item.id === customerBefore.id
           ? {

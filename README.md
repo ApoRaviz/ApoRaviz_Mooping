@@ -49,6 +49,7 @@ Fast sale first, reward optional, LINE only when useful.
 
 - State และ business logic หลักย้ายออกจาก `App` ไปอยู่ใน `LoyaltyStoreService` แล้ว
 - Reward calculation แยกเป็น pure helper และมี unit tests
+- Mock customer data แยกผ่าน repository contract เพื่อเตรียมเปลี่ยนเป็น HTTP/NestJS adapter
 - งาน frontend ถัดไปคือทำ member search/link flow และ state ของ reward ให้ละเอียดขึ้น
 - LINE integration จริงต้องผ่าน backend เท่านั้น
 - Backend ระยะยาวใช้ NestJS + PostgreSQL/Supabase
