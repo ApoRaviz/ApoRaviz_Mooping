@@ -36,6 +36,7 @@
       [customerSearch]="customerSearch()"
       (customerSelected)="customerSelected.emit($event)"
       (customerSearched)="customerSearched.emit($event)"
+      (prototypeReset)="prototypeReset.emit()"
     />
   } @else {
     <app-quick-sale-panel />

@@ -82,4 +82,29 @@ describe('App', () => {
     await fixture.whenStable();
     expect(compiled.textContent).toContain('7/10');
   });
+
+  it('should reset prototype member data back to the initial quick-sale state', async () => {
+    const fixture = TestBed.createComponent(App);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const compiled = fixture.nativeElement as HTMLElement;
+    const clickButton = (label: string) => {
+      const button = Array.from(compiled.querySelectorAll('button')).find((item) =>
+        item.textContent?.includes(label),
+      );
+      expect(button).toBeTruthy();
+      button?.click();
+      fixture.detectChanges();
+    };
+
+    clickButton('สมาชิก LINE');
+    clickButton('+5 ไม้');
+    clickButton('ยืนยันขาย');
+    expect(compiled.textContent).toContain('2/10');
+
+    clickButton('รีเซ็ตข้อมูลทดลอง');
+    expect(compiled.textContent).toContain('ลูกค้าทั่วไป ไม่ต้องค้นหา');
+    expect(compiled.textContent).toContain('พร้อมขายเร็ว');
+  });
 });

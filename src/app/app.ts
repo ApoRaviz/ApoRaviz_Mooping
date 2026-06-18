@@ -60,4 +60,8 @@ export class App {
   protected claimReward(reward: RewardOption): void {
     this.store.claimReward(reward);
   }
+
+  protected resetPrototypeData(): void {
+    this.store.resetPrototypeData();
+  }
 }

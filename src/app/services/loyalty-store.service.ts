@@ -11,6 +11,12 @@ import {
 import { CUSTOMER_REPOSITORY } from '../repositories/customer.repository';
 import { calculateRewardProgress, STICKS_PER_REWARD } from './reward-calculation';
 
+const INITIAL_LINE_MESSAGE: LineMessage = {
+  id: 1,
+  time: 'เริ่มต้น',
+  text: 'MooPing Reward พร้อมขายเร็ว: ลูกค้าซื้อครบ 10 ไม้ เลือกของแถมได้ทันที โดยไม่ต้องแอด LINE',
+};
+
 @Injectable({
   providedIn: 'root',
 })
@@ -32,13 +38,7 @@ export class LoyaltyStoreService {
   readonly quickRewardCredits = signal(0);
   readonly totalQuickSticks = signal(0);
   readonly lastSale = signal<LastSale | null>(null);
-  readonly lineMessages = signal<LineMessage[]>([
-    {
-      id: 1,
-      time: 'เริ่มต้น',
-      text: 'MooPing Reward พร้อมขายเร็ว: ลูกค้าซื้อครบ 10 ไม้ เลือกของแถมได้ทันที โดยไม่ต้องแอด LINE',
-    },
-  ]);
+  readonly lineMessages = signal<LineMessage[]>([{ ...INITIAL_LINE_MESSAGE }]);
 
   readonly selectedCustomer = computed(() => {
     return (
@@ -280,6 +280,18 @@ export class LoyaltyStoreService {
     );
 
     this.pushLineMessage(`${customer.name} เลือกของแถมเป็น ${reward.name} เรียบร้อยแล้ว`);
+  }
+
+  resetPrototypeData(): void {
+    this.customerRepository.resetCustomers();
+    this.saleMode.set('quick');
+    this.selectedCustomerId.set(this.customers()[0].id);
+    this.customerSearch.set('');
+    this.pendingSticks.set(0);
+    this.quickRewardCredits.set(0);
+    this.totalQuickSticks.set(0);
+    this.lastSale.set(null);
+    this.lineMessages.set([{ ...INITIAL_LINE_MESSAGE }]);
   }
 
   private confirmQuickSale(amount: number): void {

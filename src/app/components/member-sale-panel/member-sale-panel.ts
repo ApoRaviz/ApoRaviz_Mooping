@@ -13,6 +13,7 @@ export class MemberSalePanelComponent {
 
   readonly customerSelected = output<string>();
   readonly customerSearched = output<string>();
+  readonly prototypeReset = output<void>();
 
   selectCustomer(event: Event): void {
     const select = event.target as HTMLSelectElement;

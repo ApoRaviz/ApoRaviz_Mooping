@@ -87,3 +87,16 @@
     </strong>
   </div>
 </div>
+
+<div class="rounded-lg border border-red-800/30 bg-red-950/15 p-3.5">
+  <p class="text-sm leading-6 text-[#c9b5b1]">
+    ข้อมูลสมาชิกชุดนี้เป็นข้อมูลทดลองใน browser ไม่ใช่ฐานข้อมูลร้านจริง
+  </p>
+  <button
+    type="button"
+    class="mt-3 min-h-11 rounded-lg border border-red-800/60 px-3.5 font-black text-[#ffb4a8] transition hover:bg-red-800/20 focus-visible:outline-[3px] focus-visible:outline-red-800/25"
+    (click)="prototypeReset.emit()"
+  >
+    รีเซ็ตข้อมูลทดลอง
+  </button>
+</div>

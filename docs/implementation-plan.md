@@ -102,15 +102,15 @@ Fast sale first, reward optional, LINE only when useful.
 - [x] 6.7 แยก `ShiftStatusPanel`
 - [x] 6.8 แยก repository interface: mock adapter ก่อน, HTTP adapter ภายหลัง
 - [x] 6.9 ลด logic ใน `App` ให้เหลือ composition และ event wiring
-- [ ] 6.10 เพิ่ม SSR-safe persistence เฉพาะข้อมูล draft ที่ไม่ใช่ secret
+- [x] 6.10 เพิ่ม SSR-safe persistence เฉพาะข้อมูล draft ที่ไม่ใช่ secret
 
 ## Step 7 - Local Prototype Persistence
 
-- [ ] 7.1 เพิ่ม localStorage เฉพาะ development/prototype
-- [ ] 7.2 guard browser API ด้วย SSR-safe pattern
-- [ ] 7.3 เก็บเฉพาะข้อมูลจำลองที่ไม่มี secret
-- [ ] 7.4 เพิ่มปุ่ม reset prototype data
-- [ ] 7.5 เขียน docs ว่า localStorage ไม่ใช่ production database
+- [x] 7.1 เพิ่ม localStorage เฉพาะ development/prototype
+- [x] 7.2 guard browser API ด้วย SSR-safe pattern
+- [x] 7.3 เก็บเฉพาะข้อมูลจำลองที่ไม่มี secret
+- [x] 7.4 เพิ่มปุ่ม reset prototype data
+- [x] 7.5 เขียน docs ว่า localStorage ไม่ใช่ production database
 
 ## Step 8 - Backend API Contract
 

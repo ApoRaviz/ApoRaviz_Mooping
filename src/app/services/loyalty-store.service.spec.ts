@@ -6,6 +6,7 @@ describe('LoyaltyStoreService', () => {
   let store: LoyaltyStoreService;
 
   beforeEach(() => {
+    window.localStorage.clear();
     TestBed.configureTestingModule({});
     store = TestBed.inject(LoyaltyStoreService);
   });
@@ -52,5 +53,18 @@ describe('LoyaltyStoreService', () => {
 
     store.claimReward(store.rewards[1]);
     expect(store.selectedCustomer().savedRewards).toBe(1);
+  });
+
+  it('resets customer and sale prototype state', () => {
+    store.selectSaleMode('member');
+    store.addPendingSticks(5);
+    store.confirmPendingSale();
+    store.resetPrototypeData();
+
+    expect(store.saleMode()).toBe('quick');
+    expect(store.selectedCustomer().sticks).toBe(7);
+    expect(store.pendingSticks()).toBe(0);
+    expect(store.lastSale()).toBeNull();
+    expect(store.lineMessages()).toHaveLength(1);
   });
 });

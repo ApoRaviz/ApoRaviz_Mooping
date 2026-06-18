@@ -34,4 +34,5 @@ export class PosPanelComponent {
   readonly pendingSaleCleared = output<void>();
   readonly pendingSaleConfirmed = output<void>();
   readonly lastSaleUndone = output<void>();
+  readonly prototypeReset = output<void>();
 }

@@ -52,6 +52,18 @@ npm run build
 
 โปรเจกต์นี้ปิด Angular persistent disk cache ใน `angular.json` เพราะ native LMDB cache เคยทำให้ Node abort บน macOS/Node environment ปัจจุบัน การปิด cache อาจทำให้ build ช้าลงเล็กน้อย แต่ไม่เปลี่ยน output ของ app
 
+## Prototype Data
+
+Member state ของ frontend prototype ถูกเก็บใน browser `localStorage` เพื่อให้ refresh แล้วข้อมูลทดลองยังอยู่
+
+```text
+localStorage = ข้อมูลจำลองเฉพาะ browser เครื่องนั้น
+ไม่ใช่ production database
+ไม่ใช้เก็บ secret, access token หรือ LINE userId จริง
+```
+
+ถ้าต้องการกลับค่าเริ่มต้น ให้เข้าโหมด `สมาชิก LINE` แล้วกด `รีเซ็ตข้อมูลทดลอง`
+
 ## GitHub Pages Build
 
 ```bash

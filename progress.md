@@ -66,6 +66,9 @@
 - [x] Extract shop status summary into `ShiftStatusPanelComponent`
 - [x] Add `CustomerRepository` contract and `MockCustomerRepository` adapter
 - [x] Move mock customer ownership out of `LoyaltyStoreService`
+- [x] Persist mock customer state with SSR-safe browser storage
+- [x] Validate restored localStorage data before using it
+- [x] Add a Member Sale action to reset all prototype state
 - [x] Add TypeScript 6 `rootDir` config for app source layout
 - [x] Disable Angular persistent disk cache to avoid native LMDB crash on the current macOS/Node environment
 - [x] Build quick sale first UI
